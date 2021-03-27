@@ -11,7 +11,28 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+ mix.styles([
+    'resources/assets/front/styles/bootstrap4/bootstrap.min.css',
+    'resources/assets/front/styles/main_styles.css',
+    'resources/assets/front/styles/responsive.css',
+    'resources/assets/front/styles/product.css',
+    'resources/assets/front/styles/product_responsive.css'
+ ], 'public/front/css/front.css');
+
+ mix.scripts([
+    'resources/assets/front/js/jquery-3.2.1.min.js',
+    'resources/assets/front/styles/bootstrap4/popper.js',
+    'resources/assets/front/styles/bootstrap4/bootstrap.min.js',
+    'resources/assets/front/plugins/greensock/TweenMax.min.js',
+    'resources/assets/front/plugins/greensock/TimelineMax.min.js',
+    'resources/assets/front/plugins/scrollmagic/ScrollMagic.min.js',
+    'resources/assets/front/plugins/greensock/animation.gsap.min.js',
+    'resources/assets/front/plugins/greensock/ScrollToPlugin.min.js',
+    'resources/assets/front/plugins/Isotope/isotope.pkgd.min.js',
+    'resources/assets/front/plugins/easing/easing.js',
+    'resources/assets/front/plugins/parallax-js-master/parallax.min.js',
+    'resources/assets/front/js/custom.js',
+    'resources/assets/front/js/product.js'
+ ], 'public/front/js/front.js');
+
+ mix.copyDirectory('resources/assets/front/images', 'public/front/images');
