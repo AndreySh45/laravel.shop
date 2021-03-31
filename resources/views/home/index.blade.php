@@ -98,7 +98,7 @@
                     <img src="{{asset('front/images/discount.png')}}" alt="">
                     <div>
                         <div class="avds_discount">
-                            <div>20<span>%</span></div>
+                            <div>40<span>%</span></div>
                             <div>Discount</div>
                         </div>
                     </div>
