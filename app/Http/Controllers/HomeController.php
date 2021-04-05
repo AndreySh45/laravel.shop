@@ -7,8 +7,30 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(){
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
         $products = Product::orderBy('created_at','desc')->take(8)->get();
         return view('home.index', compact('products'));
     }
+
+    public function user()
+    {
+        return view('home');
+    }
+
 }

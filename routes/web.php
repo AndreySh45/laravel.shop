@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +18,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'] );
-Route::get('/{cat}/{product_id}', [ProductController::class, 'show'] )->name('showProduct');
-Route::get('/{cat}', [ProductController::class, 'showCategory'] )->name('showCategory');
+Route::get('/catedory/{cat}/{product_id}', [ProductController::class, 'show'] )->name('showProduct');
+Route::get('/catedory/{cat}', [ProductController::class, 'showCategory'] )->name('showCategory');
+Route::get('/cart', [CartController::class, 'index'] )->name('cartIndex');
+
+Route::post('/add-to-cart', [CartController::class, 'addToCart'] )->name('addToCart');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
+Route::group(['middleware' => ['role:admin']], function(){
+    Route::get('/test', function(){
+        return view('test');
+    });
+});
