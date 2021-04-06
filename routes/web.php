@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -27,8 +28,6 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'] )->name('addToC
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
-Route::group(['middleware' => ['role:admin']], function(){
-    Route::get('/test', function(){
-        return view('test');
-    });
+Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
+    Route::get('/', [MainController::class, 'index'])->name('homeAdmin'); // /admin
 });
