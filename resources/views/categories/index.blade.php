@@ -12,7 +12,7 @@
                 let orderBy = $(this).data('order')
                 $('.sorting_text').text($(this).find('span').text())
                 $.ajax({
-                    url: "{{route('showCategory', $cat->alias)}}",
+                    url: "{{route('showCategory', $cat->slug)}}",
                     type: "GET",
                     data: {
                         orderBy: orderBy,

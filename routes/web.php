@@ -28,6 +28,9 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'] )->name('addToC
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
-Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
-    Route::get('/', [MainController::class, 'index'])->name('homeAdmin'); // /admin
+
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin_panel', 'middleware' => 'role:admin'], function () {
+    Route::get('/', 'MainController@index')->name('homeAdmin'); // /admin
+    Route::resource('categories', 'CategoryController');
+
 });

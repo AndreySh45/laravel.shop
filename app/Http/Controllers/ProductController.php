@@ -14,7 +14,7 @@ class ProductController extends Controller
         return view('product.show', compact('item'));
     }
     public function showCategory(Request $request, $cat_alias){
-        $cat = Category::where('alias',$cat_alias)->firstOrFail();
+        $cat = Category::where('slug', $cat_alias)->firstOrFail();
         $paginate = 8;
         $products = Product::where('category_id',$cat->id)->paginate($paginate)->withQueryString();
         if(isset($request->orderBy)){
