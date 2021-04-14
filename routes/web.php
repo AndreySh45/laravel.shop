@@ -32,5 +32,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name(
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin_panel', 'middleware' => 'role:admin'], function () {
     Route::get('/', 'MainController@index')->name('homeAdmin'); // /admin
     Route::resource('categories', 'CategoryController');
+    Route::resource('products', 'ProductController');
 
 });

@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="/admin/plugins/summernote/summernote-bs4.min.css">
+  <link href="/admin/dist/css/colorbox.css" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/0d2ngas7t2qkecmk2rlk5wklug6ph6n1vfzad2p9zabtdum0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -79,13 +81,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link">
+                        <a href="{{route('products.index')}}" class="nav-link">
                             <p>Все товары</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link">
-                            <p>Добавить продукт</p>
+                        <a href="{{route('products.create')}}" class="nav-link">
+                            <p>Добавить товар</p>
                         </a>
                     </li>
 
@@ -196,5 +198,6 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/admin/dist/js/pages/dashboard.js"></script>
 <script src="/admin/admin.js"></script>
-</body>
+<script type="text/javascript" src="/admin/dist/js/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="/packages/barryvdh/elfinder/js/standalonepopup.js"></script>
 </html>
