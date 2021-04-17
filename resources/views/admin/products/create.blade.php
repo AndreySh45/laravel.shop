@@ -25,18 +25,29 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Название</label>
-                                    <input type="text" name="title" class="form-control" id="exampleInputEmail1"
+                                    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="exampleInputEmail1"
                                         placeholder="Введите название товара" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Цена товара</label>
+                                    <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="exampleInputEmail1"
+                                        placeholder="Введите цену" required>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input name="in_stock" class="form-check-input" type="checkbox" value="1">
+                                        <label class="form-check-label">Наличие товара</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="description">Описание товара</label>
-                                    <textarea name="description" class="editor" placeholder="Описание ..."></textarea>
+                                    <textarea name="description" class="editor @error('description') is-invalid @enderror" placeholder="Описание ..."></textarea>
                                 </div>
                                 <div class="form-group">
                                     <!-- select -->
                                         <div class="form-group">
                                           <label>Выберите категорию</label>
-                                            <select name="category_id" class="form-control" required>
+                                            <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                                                 @foreach ($categories as $category)
                                                     <option value="{{$category['id']}}">{{$category['title']}}</option>
                                                 @endforeach
@@ -46,7 +57,7 @@
                                 <div class="form-group">
                                     <label for="feature_image">Изображение товара</label>
                                     <img src="" alt="" class="img-uploaded" style="display: block; width: 300px">
-                                    <input type="text" class="form-control mt-2" id="feature_image" name="feature_image" value="" readonly>
+                                    <input type="text" class="form-control mt-2" id="feature_image" name="img" value="" readonly>
                                     <a href="" class="popup_selector" data-inputid="feature_image">Выбрать изображение</a>
                                 </div>
 

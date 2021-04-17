@@ -87,12 +87,13 @@ class CategoryController extends Controller
             'desc' => 'required',
             'img' => 'nullable|image',
         ]);
-        $category->title = $request->title;
-        $category->desc = $request->desc;
+        $data = $request->all();
+        //$category->title = $request->title;
+        //$category->desc = $request->desc;
         if ($file = Category::uploadImage($request, $category->img)) {
             $category->img = $file;
         }
-        $category->update();
+        $category->update($data);
 
         return redirect()->back()->with('success','Категория была успешно обновлена!');
     }

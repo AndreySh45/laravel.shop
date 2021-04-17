@@ -22,6 +22,7 @@ tinymce.init({
     language: 'ru',
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
     toolbar_mode: 'floating',
+    relative_urls: false,
     file_picker_callback : elFinderBrowser
 });
 function elFinderBrowser (callback, value, meta) {

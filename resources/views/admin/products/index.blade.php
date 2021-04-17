@@ -1,12 +1,12 @@
 @extends('layouts.admin_layout')
-@section('title', 'Все категории')
+@section('title', 'Товары')
 @section('content')
        <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Все категории</h1>
+                    <h1 class="m-0">Все товары</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -16,9 +16,9 @@
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
+            @if (count($products))
             <div class="card">
                 <div class="card-body p-0">
-                @if (count($categories))
                     <table class="table table-striped projects">
                         <thead>
                             <tr>
@@ -28,27 +28,50 @@
                                 <th>
                                     Название
                                 </th>
+                                <th>
+                                    Цена
+                                </th>
+                                <th>
+                                    Категория
+                                </th>
+                                <th>
+                                    Наличие
+                                </th>
+                                <th>
+                                    Дата добавления
+                                </th>
                                 <th style="width: 30%">
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $category)
+                            @foreach ($products as $product)
                                 <tr>
                                     <td>
-                                        {{ $category['id'] }}
+                                        {{ $product['id'] }}
                                     </td>
                                     <td>
-                                        {{ $category['title'] }}
+                                        {{ $product['title'] }}
                                     </td>
-
+                                    <td>
+                                        {{ $product['price'] }}
+                                    </td>
+                                    <td>
+                                        {{ $product->category['title'] }}
+                                    </td>
+                                    <td>
+                                        {{ $product['in_stock'] }}
+                                    </td>
+                                    <td>
+                                        {{ $product['created_at'] }}
+                                    </td>
                                     <td class="project-actions text-right">
-                                        <a class="btn btn-info btn-sm" href="{{ route('categories.edit', $category['id']) }}">
+                                        <a class="btn btn-info btn-sm" href="{{ route('products.edit', $product['id']) }}">
                                             <i class="fas fa-pencil-alt">
                                             </i>
                                             Редактировать
                                         </a>
-                                        <form action="{{ route('categories.destroy', $category['id']) }}" method="POST"
+                                        <form action="{{ route('products.destroy', $product['id']) }}" method="POST"
                                         style="display: inline-block">
                                             @csrf
                                             @method('DELETE')
@@ -66,14 +89,12 @@
 
                         </tbody>
                     </table>
-                @else
-                    <p>Категорий пока нет...</p>
-                @endif
                 </div>
-                <!-- /.card-body -->
+                     <!-- /.card-body -->
             </div>
-
-
+            @else
+                <p> Товаров пока нет...</p>
+            @endif
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->

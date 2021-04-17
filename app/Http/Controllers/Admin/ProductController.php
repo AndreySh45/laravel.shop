@@ -41,7 +41,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'category_id' => 'required|integer',
+            'price' => 'required|integer',
+        ]);
+
+        $data = $request->all();
+        $product = Product::create($data);
+        $product->images()->create(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);
+
+        return redirect()->back()->with('success','Товар добавлен');
     }
 
     /**
@@ -61,9 +72,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::orderBy('created_at', 'DESC')->get();
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -73,9 +86,19 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'category_id' => 'required|integer',
+            'price' => 'required|integer',
+        ]);
+        $data = $request->all();
+        $product->update($data);
+        $product->images()->update(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);
+
+        return redirect()->back()->with('success','Товар был успешно обновлен!');
     }
 
     /**
@@ -84,8 +107,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->back()->with('success','Товар был успешно удален!');
     }
 }
