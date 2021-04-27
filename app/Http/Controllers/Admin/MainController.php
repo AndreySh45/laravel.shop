@@ -12,6 +12,7 @@ class MainController extends Controller
     public function index(){
         $products_count = Product::all()->count();
         $categories_count = Category::all()->count();
+
         return view('admin.home.index', compact('products_count', 'categories_count'));
     }
 }

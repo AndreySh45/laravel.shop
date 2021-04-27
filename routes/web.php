@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\MainController;
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'] );
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/catedory/{cat}/{product_id}', [ProductController::class, 'show'] )->name('showProduct');
 Route::get('/catedory/{cat}', [ProductController::class, 'showCategory'] )->name('showCategory');
 Route::get('/cart', [CartController::class, 'index'] )->name('cartIndex');
@@ -27,11 +27,10 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'] )->name('addToC
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
+Route::get('/home', [HomeController::class, 'user'])->name('home');
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin_panel', 'middleware' => 'role:admin'], function () {
     Route::get('/', 'MainController@index')->name('homeAdmin'); // /admin
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
-
 });
