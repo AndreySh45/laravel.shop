@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\SpaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/spa/{any}', [SpaController::class, 'index'])->where('any', '.*');
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/catedory/{cat}/{product_id}', [ProductController::class, 'show'] )->name('showProduct');
 Route::get('/catedory/{cat}', [ProductController::class, 'showCategory'] )->name('showCategory');
