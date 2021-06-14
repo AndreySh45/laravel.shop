@@ -24,6 +24,11 @@ const router = new VueRouter({
             component: Desks
         },
         {
+            path: '/message',
+            name: 'message',
+            component: ChatboxComponent
+        },
+        {
             path: '/desks/:deskId',
             name: 'showDesk',
             component: ShowDesk,
@@ -35,6 +40,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: {App, ChatboxComponent},
+    components: {App},
     router
 })

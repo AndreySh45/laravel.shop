@@ -5,6 +5,7 @@
                 <div class="navbar-nav">
                     <router-link class="nav-item nav-link" :to="{name: 'home'}">Главная</router-link>
                     <router-link class="nav-item nav-link" :to="{name: 'desks'}">Доски</router-link>
+                    <router-link class="nav-item nav-link" :to="{name: 'message'}">Чат</router-link>
                 </div>
             </div>
         </nav>
