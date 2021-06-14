@@ -2,7 +2,7 @@
     <div class="container">
         <h1>Доски</h1>
         <div class="row">
-            <div class="col-lg-4" v-for="desk in desks">
+            <div class="col-lg-4" v-for="(desk, i) in desks" :key="i">
                 <div class="card mt-3">
                     <router-link class="card-body" :to="{name: 'showDesk', params: {deskId: desk.id}}">
                         <h4 class="card-title">{{desk.name}}</h4>

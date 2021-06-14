@@ -8,6 +8,7 @@ import App from './components/App'
 import Home from './components/Home'
 import Desks from './components/desks/Desks'
 import ShowDesk from './components/desks/ShowDesk'
+import ChatboxComponent from './components/ChatboxComponent'
 
 const router = new VueRouter({
     mode: 'history',
@@ -34,6 +35,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    components: {App},
+    components: {App, ChatboxComponent},
     router
 })

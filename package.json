@@ -17,7 +17,7 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "popper.js": "^1.12",
-        "postcss": "^8.1.14",
+        "postcss": "^8.3.3",
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "jquery-colorbox": "^1.6.4",
+        "laravel-echo": "^1.10.0",
+        "pusher-js": "^7.0.3",
         "vue": "^2.6.12",
         "vue-router": "^3.5.1"
     }
