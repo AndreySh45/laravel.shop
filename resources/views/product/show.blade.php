@@ -68,16 +68,16 @@
             <div class="col-lg-6">
                 <div class="details_image">
 
-                    <div class="details_image_large"><img src="/{{ $item->getImage()}}" alt=""><div class="product_extra product_new"><a href="categories.html">New</a></div></div>
+                    <div class="details_image_large"><img src="{{ $item->getImage()}}" alt=""><div class="product_extra product_new"><a href="categories.html">New</a></div></div>
                     <div class="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
                         @if($item->getImage() == 'no_image.png')
 
                         @else
                             @foreach($item->images as $img)
                                 @if($loop->first)
-                                    <div class="details_image_thumbnail active" data-image="/{{$img['img']}}"><img src="/{{$img['img']}}" alt="{{$item->title}}"></div>
+                                    <div class="details_image_thumbnail active" data-image="{{$img['img']}}"><img src="{{$img['img']}}" alt="{{$item->title}}"></div>
                                 @else
-                                    <div class="details_image_thumbnail" data-image="/{{$img['img']}}"><img src="/{{$img['img']}}" alt="{{$item->title}}"></div>
+                                    <div class="details_image_thumbnail" data-image="{{$img['img']}}"><img src="{{$img['img']}}" alt="{{$item->title}}"></div>
                                 @endif
                             @endforeach
                         @endif
@@ -106,7 +106,7 @@
                         @endif
                     </div>
                     <div class="details_text">
-                        <p>{{$item->description}}</p>
+                        <p>{!!$item->description!!}</p>
                     </div>
 
                     <!-- Product Quantity -->

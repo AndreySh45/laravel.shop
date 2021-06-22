@@ -59,7 +59,7 @@
 
 	<div class="home">
 		<div class="home_container">
-			<div class="home_background" style="background-image:url('/images/{{$cat->img}}')"></div>
+			<div class="home_background" style="background-image:url('/uploads/{{$cat->img}}')"></div>
 			<div class="home_content_container">
 				<div class="container">
 					<div class="row">
@@ -112,15 +112,16 @@
                         @foreach ($products as  $product)
                             <!-- Product -->
                             @php
-                                $image='';
+                                //$image = $product->getImage();
+                                /* $image='';
                                 if(count($product->images) > 1){
                                     $image = $product->images[0]['img'];
                                 }else{
                                     $image = 'no_image.png';
-                                }
+                                } */
                             @endphp
                             <div class="product">
-                                <div class="product_image"><img src="/front/images/{{$image}}" alt="{{$product->title}}"></div>
+                                <div class="product_image"><img src="{{$product->images[0]['img']}}" alt="{{$product->title}}"></div>
                                 <div class="product_extra product_sale"><a href="{{route('showCategory', $product->category['title'])}}">{{$product->category['title']}}</a></div>
                                 <div class="product_content">
                                     <div class="product_title"><a href="{{route('showProduct', [$product->category['title'], $product->id])}}">{{$product->title}}</a></div>

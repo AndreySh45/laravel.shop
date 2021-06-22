@@ -13,4 +13,8 @@ class ProductImage extends Model
         'product_id'
     ];
 
+    public function product(){
+        return $this->belongsTo('App\Models\Product');
+    }
+
 }

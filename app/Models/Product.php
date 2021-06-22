@@ -23,11 +23,11 @@ class Product extends Model
     }
     public function getImage()
     {
-        $img = $this->images['img'];
+        $img = $this->images[0]['img'];
         if (!$img) {
             return asset("no_image.png");
         }
-        return asset("{$img}");
+        return $img;
     }
 
 }
