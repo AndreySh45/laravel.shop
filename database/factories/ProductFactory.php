@@ -28,6 +28,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->text(250),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
+            'category_id' => $this->faker->numberBetween(1, 3),
         ];
     }
 }

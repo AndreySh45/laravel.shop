@@ -18,7 +18,7 @@ class DeskController extends Controller
      */
     public function index()
     {
-        return DeskResource::collection(Desk::all());
+        return DeskResource::collection(Desk::orderBy('created_at', 'desc')->get());
     }
 
     /**
@@ -69,6 +69,6 @@ class DeskController extends Controller
     {
         $desk->delete();
 
-        return response("Hello world!", 402);
+        return response(null, 200);
     }
 }

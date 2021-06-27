@@ -23,7 +23,7 @@ class DeskListFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'desk_id' => $this->faker->numberBetween(100, 200),
+            'desk_id' => $this->faker->numberBetween(1, 100),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];
