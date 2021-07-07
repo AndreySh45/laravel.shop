@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Api\V1\ChatController;
 
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResources([
     'desks' => DeskController::class,
     'desk-lists' => DeskListController::class,
+    'cards' => CardController::class
 ]);
 
 Route::post('/message', [ChatController::class, 'index']);
