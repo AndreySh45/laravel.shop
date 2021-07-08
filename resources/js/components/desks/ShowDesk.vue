@@ -39,8 +39,12 @@
                         <button type="button" class="btn btn-danger mt-3" @click="deleteDeskList(desk_list.id)">Удалить список</button>
                         <div class="card mt-3 bg-light" v-for="card in desk_list.cards" :key="card.id">
                             <div class="card-body">
-                                <h4 class="card-title d-flex justify-content-between align-items-center" style="cursor: pointer;">{{card.name}}</h4>
-                                <button type="button" class="btn btn-secondary mt-3">Удалить</button>
+                                <h4 class="card-title d-flex justify-content-between align-items-center mb-3" style="cursor: pointer;">{{card.name}}</h4>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Открыть
+                                </button>
+                                <button type="button" class="btn btn-secondary" @click="deleteCard(card.id)">Удалить</button>
                             </div>
                         </div>
                         <form @submit.prevent = "addNewCard(desk_list.id)" class="mt-3">
@@ -54,6 +58,22 @@
                                 </div>
                             </div>
                         </form>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,6 +103,21 @@ export default {
         }
     },
     methods:{
+        deleteCard(id){
+            axios.post('/api/V1/cards/' + id, {
+                    _method: 'DELETE'
+                    })
+                    .then(response => {
+                        this.getDeskLists()
+                    })
+                    .catch (error => {
+                        console.log(error)
+                        this.errored = true
+                    })
+                    .finally(() => {
+                        this.loading = false
+                    })
+        },
         addNewCard(desk_list_id){
             this.$v.card_names.$each[desk_list_id].$touch()
             if (this.$v.card_names.$each[desk_list_id].$anyError) {
