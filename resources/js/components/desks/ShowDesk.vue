@@ -41,7 +41,7 @@
                             <div class="card-body">
                                 <h4 class="card-title d-flex justify-content-between align-items-center mb-3" style="cursor: pointer;">{{card.name}}</h4>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" @click="getCard(card.id)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     Открыть
                                 </button>
                                 <button type="button" class="btn btn-secondary" @click="deleteCard(card.id)">Удалить</button>
@@ -63,7 +63,20 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <form @submit.prevent = "updateCardName" v-if = "show_card_name_input" class="d-flex justify-content-between align-items-center">
+                                                <input type="text" v-model="current_card.name" class="form-control" :class="{ 'is-invalid': $v.current_card.name.$error }" placeholder="Введите название карты">
+                                                <button type="button" @click="show_card_name_input = false" class="close ml-2" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <div class="invalid-feedback" v-if="!$v.current_card.name.required">
+                                                    Обязательное поле!
+                                                </div>
+                                                <div class="invalid-feedback" v-if="!$v.current_card.name.maxLength">
+                                                    Макс. количество символов: {{$v.current_card.name.$params.maxLength.max}}
+                                                </div>
+                                            </form>
+
+                                            <h5 class="modal-title" style="cursor: pointer" id="exampleModalLongTitle" v-if = "!show_card_name_input" @click="show_card_name_input = true">{{current_card.name}}<i class="fas fa-pen-alt" style="font-size: 15px;"></i></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -99,10 +112,41 @@ export default {
             loading: true,
             desk_lists: true,
             desk_list_input_id: null,
-            card_names: []
+            card_names: [],
+            current_card: [],
+            show_card_name_input: false
         }
     },
     methods:{
+        updateCardName(){
+            this.$v.current_card.name.$touch()
+            if (this.$v.current_card.name.$anyError) {
+                return;
+            }
+            axios.post('/api/V1/cards/' + this.current_card.id, {
+                _method: 'PATCH',
+                name: this.current_card.name,
+                desk_list_id: this.current_card.desk_list_id,
+            })
+                .then(response => {
+                    show_card_name_input: false
+                    this.$v.$reset()
+                    this.getDeskLists()
+                })
+                .catch (error => {
+                    console.log(error.response)
+                    this.errored = true
+                })
+                .finally(() => {
+                    this.loading = false
+                })
+        },
+        getCard(id){
+            axios.get('/api/V1/cards/' + id)
+                .then(response => {
+                    this.current_card = response.data.data
+                })
+        },
         deleteCard(id){
             axios.post('/api/V1/cards/' + id, {
                     _method: 'DELETE'
@@ -263,6 +307,12 @@ export default {
         },
         card_names:{
             $each:{
+                required,
+                maxLength: maxLength(255)
+            }
+        },
+        current_card:{
+            name:{
                 required,
                 maxLength: maxLength(255)
             }

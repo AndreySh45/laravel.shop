@@ -39,9 +39,9 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Card $card)
     {
-        //
+        return new CardResource($card);
     }
 
     /**
@@ -51,9 +51,11 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CardStoreRequest $request, Card $card)
     {
-        //
+        $card->update($request->validated());
+
+        return new CardResource($card);
     }
 
     /**
