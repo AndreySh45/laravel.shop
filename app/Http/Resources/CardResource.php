@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\TaskResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CardResource extends JsonResource
@@ -19,6 +20,7 @@ class CardResource extends JsonResource
             'name' => $this->name,
             'created_at' => $this->created_at,
             'desk_list_id' => $this->desk_list_id,
+            'tasks' => TaskResource::collection($this->tasks)
         ];
     }
 }

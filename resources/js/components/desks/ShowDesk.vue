@@ -26,12 +26,18 @@
             Ошибка загрузки данных!
         </div>
         <div class="row">
-            <div class="col-lg-4" v-for="(desk_list, i) in desk_lists" :key="i">
+            <div class="col-lg-4" v-for="(desk_list, index) in desk_lists" :key="desk_list.id">
                 <div class="card mt-3">
                     <div class="card-body">
                         <form @submit.prevent = "updateDeskList(desk_list.id, desk_list.name)" v-if = "desk_list_input_id == desk_list.id" class="d-flex justify-content-between align-items-center">
-                            <input type="text" v-model="desk_list.name" class="form-control" placeholder="Введите название списка">
-                            <button type="button" @click="desk_list_input_id = null" class="close ml-2" aria-label="Close">
+                            <input type="text" v-model="desk_list.name" class="form-control" :class="{ 'is-invalid': $v.desk_lists.$each[index].name.$error }" placeholder="Введите название списка">
+                            <div class="invalid-feedback" v-if="!$v.desk_lists.$each[index].name.required">
+                                    Обязательное поле!
+                                </div>
+                            <div class="invalid-feedback" v-if="!$v.desk_lists.$each[index].name.maxLength">
+                                    Макс. количество символов: {{$v.desk_lists.$each[index].name.$params.maxLength.max}}
+                            </div>
+                            <button type="button" @click="updateDeskList(desk_list.id, desk_list.name)" class="close ml-2" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </form>
@@ -65,24 +71,27 @@
                                         <div class="modal-header">
                                             <form @submit.prevent = "updateCardName" v-if = "show_card_name_input" class="d-flex justify-content-between align-items-center">
                                                 <input type="text" v-model="current_card.name" class="form-control" :class="{ 'is-invalid': $v.current_card.name.$error }" placeholder="Введите название карты">
-                                                <button type="button" @click="show_card_name_input = false" class="close ml-2" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
                                                 <div class="invalid-feedback" v-if="!$v.current_card.name.required">
                                                     Обязательное поле!
                                                 </div>
                                                 <div class="invalid-feedback" v-if="!$v.current_card.name.maxLength">
                                                     Макс. количество символов: {{$v.current_card.name.$params.maxLength.max}}
                                                 </div>
+                                                <button type="button" @click="updateCardName" class="close ml-2" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </form>
 
-                                            <h5 class="modal-title" style="cursor: pointer" id="exampleModalLongTitle" v-if = "!show_card_name_input" @click="show_card_name_input = true">{{current_card.name}}<i class="fas fa-pen-alt" style="font-size: 15px;"></i></h5>
+                                            <h5 class="modal-title" style="cursor: pointer" id="exampleModalLongTitle" v-if = "!show_card_name_input" @click="show_card_name_input = true">{{current_card.name}}<i class="fas fa-pen-alt ml-2" style="font-size: 15px;"></i></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            ...
+                                            <div class="form-check" v-for="task in current_card.tasks">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                                <label class="form-check-label" for="inlineCheckbox1">{{task.name}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -123,6 +132,7 @@ export default {
             if (this.$v.current_card.name.$anyError) {
                 return;
             }
+            this.show_card_name_input = false
             axios.post('/api/V1/cards/' + this.current_card.id, {
                 _method: 'PATCH',
                 name: this.current_card.name,
@@ -266,6 +276,11 @@ export default {
             }
         },
         updateDeskList(id, name){
+            this.$v.desk_lists.$touch()
+            if (this.$v.desk_lists.$anyError) {
+                return;
+            }
+            this.desk_list_input_id = null
             axios.post('/api/V1/desk-lists/' + id, {
                 _method: 'PUT',
                 name
@@ -317,6 +332,14 @@ export default {
                 maxLength: maxLength(255)
             }
         },
+        desk_lists:{
+            $each:{
+                name:{
+                    required,
+                    maxLength: maxLength(255)
+                }
+            }
+        }
     },
 }
 </script>
