@@ -92,6 +92,17 @@
                                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
                                                 <label class="form-check-label" for="inlineCheckbox1">{{task.name}}</label>
                                             </div>
+                                            <form @submit.prevent = "addNewTask" class="mt-3">
+                                                <div class="form-group">
+                                                    <input type="text" v-model="new_task_name" class="form-control" :class="{ 'is-invalid': $v.new_task_name.$error }" placeholder="Введите название задачи">
+                                                    <div class="invalid-feedback" v-if="!$v.new_task_name.required">
+                                                        Обязательное поле!
+                                                    </div>
+                                                    <div class="invalid-feedback" v-if="!$v.new_task_name.maxLength">
+                                                        Макс. количество символов: {{$v.new_task_name.$params.maxLength.max}}
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -123,10 +134,33 @@ export default {
             desk_list_input_id: null,
             card_names: [],
             current_card: [],
-            show_card_name_input: false
+            show_card_name_input: false,
+            new_task_name: ''
         }
     },
     methods:{
+        addNewTask(){
+            this.$v.new_task_name.$touch()
+            if (this.$v.new_task_name.$anyError) {
+                return;
+            }
+            axios.post('/api/V1/tasks', {
+                name: this.new_task_name,
+                card_id: this.current_card.id,
+            })
+                .then(response => {
+                    this.new_task_name = ''
+                    this.$v.$reset()
+                    this.getCard(this.current_card.id)
+                })
+                .catch (error => {
+                    console.log(error.response)
+                    this.errored = true
+                })
+                .finally(() => {
+                    this.loading = false
+                })
+        },
         updateCardName(){
             this.$v.current_card.name.$touch()
             if (this.$v.current_card.name.$anyError) {
@@ -331,6 +365,10 @@ export default {
                 required,
                 maxLength: maxLength(255)
             }
+        },
+        new_task_name:{
+            required,
+            maxLength: maxLength(255)
         },
         desk_lists:{
             $each:{
