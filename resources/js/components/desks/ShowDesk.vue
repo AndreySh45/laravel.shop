@@ -91,6 +91,9 @@
                                             <div class="form-check" v-for="task in current_card.tasks">
                                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
                                                 <label class="form-check-label" for="inlineCheckbox1">{{task.name}}</label>
+                                                <button type="button" @click="deleteTask(task.id)" class="close" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
                                             <form @submit.prevent = "addNewTask" class="mt-3">
                                                 <div class="form-group">
@@ -139,6 +142,22 @@ export default {
         }
     },
     methods:{
+        deleteTask(id){
+           axios.post('/api/V1/tasks/' + id, {
+                _method: 'DELETE'
+            })
+                .then(response => {
+                    this.$v.$reset()
+                    this.getCard(this.current_card.id)
+                })
+                .catch (error => {
+                    console.log(error)
+                    this.errored = true
+                })
+                .finally(() => {
+                    this.loading = false
+                })
+        },
         addNewTask(){
             this.$v.new_task_name.$touch()
             if (this.$v.new_task_name.$anyError) {
