@@ -88,10 +88,14 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="form-check" v-for="task in current_card.tasks">
+                                            <div class="form-check d-flex justify-content-between" v-for="(task, index) in current_card.tasks">
                                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                <label class="form-check-label" for="inlineCheckbox1">{{task.name}}</label>
-                                                <button type="button" @click="deleteTask(task.id)" class="close" aria-label="Close">
+                                                <form @submit.prevent="updateTask(current_card.tasks[index])" v-if="task_input_name_id == task.id">
+                                                    <input type="text" v-model="current_card.tasks[index].name" v-if="task_input_name_id == task.id" class="form-control" placeholder="Введите название задачи">
+                                                </form>
+                                                <label v-else class="form-check-label" for="inlineCheckbox1">{{task.name}}</label>
+                                                <span @click="task_input_name_id = task.id" v-if="task_input_name_id != task.id"><i class="fas fa-pen-alt ml-2" style="font-size: 13px;"></i></span>
+                                                <button type="button" @click="deleteTask(task.id)" class="close ml-3" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -138,10 +142,29 @@ export default {
             card_names: [],
             current_card: [],
             show_card_name_input: false,
-            new_task_name: ''
+            new_task_name: '',
+            task_input_name_id: null
         }
     },
     methods:{
+        updateTask(task){
+            axios.post('/api/V1/tasks/' + task.id, {
+                _method: 'PATCH',
+                name: task.name,
+                is_done: task.is_done,
+                card_id: task.card_id
+            })
+                .then(response => {
+                    this.task_input_name_id = null
+                })
+                .catch (error => {
+                    console.log(error.response)
+                    this.errored = true
+                })
+                .finally(() => {
+                    this.loading = false
+                })
+        },
         deleteTask(id){
            axios.post('/api/V1/tasks/' + id, {
                 _method: 'DELETE'
