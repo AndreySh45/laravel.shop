@@ -88,13 +88,15 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="form-check d-flex justify-content-between" v-for="(task, index) in current_card.tasks">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                                <form @submit.prevent="updateTask(current_card.tasks[index])" v-if="task_input_name_id == task.id">
-                                                    <input type="text" v-model="current_card.tasks[index].name" v-if="task_input_name_id == task.id" class="form-control" placeholder="Введите название задачи">
-                                                </form>
-                                                <label v-else class="form-check-label" for="inlineCheckbox1">{{task.name}}</label>
-                                                <span @click="task_input_name_id = task.id" v-if="task_input_name_id != task.id"><i class="fas fa-pen-alt ml-2" style="font-size: 13px;"></i></span>
+                                            <div class="d-flex justify-content-between form-check" v-for="(task, index) in current_card.tasks">
+                                                <div d-flex justify-content-start>
+                                                    <input class="form-check-input" type="checkbox" @change="updateTask(current_card.tasks[index])" :id="'inlineCheckbox'+index" v-model="current_card.tasks[index].is_done">
+                                                    <form @submit.prevent="updateTask(current_card.tasks[index])" v-if="task_input_name_id == task.id">
+                                                        <input type="text" v-model="current_card.tasks[index].name" v-if="task_input_name_id == task.id" class="form-control" placeholder="Введите название задачи">
+                                                    </form>
+                                                    <label v-else class="form-check-label" :for="'inlineCheckbox'+index">{{task.name}}</label>
+                                                    <span class="me-auto" @click="task_input_name_id = task.id" v-if="task_input_name_id != task.id"><i class="fas fa-pen-alt ml-2" style="font-size: 13px;"></i></span>
+                                                </div>
                                                 <button type="button" @click="deleteTask(task.id)" class="close ml-3" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
