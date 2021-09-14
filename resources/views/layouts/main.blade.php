@@ -51,10 +51,26 @@
 										</ul>
 									</li>
 									<li><a href="#">Accessories</a></li>
-									<li><a href="#">Offers</a></li>
-									<li><a href="contact.html">Contact</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
 								</ul>
 							</nav>
+                            <div class="header_extra ml-auto">
+                                @guest
+                                    <a href="{{route('login')}}">Log In</a>
+                                @else
+                                    <div class="container d-flex flex-row align-items-center">
+                                    <a href="#">{{ Auth::user()->name }}</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                    </form>
+                                    </div>
+                                @endguest
+                            </div>
 							<div class="header_extra ml-auto">
 								<div class="shopping_cart">
 									<a href="{{route('cartIndex')}}">
@@ -100,7 +116,48 @@
 			</div>
 		</div>
 
-		<!-- Search Panel -->
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-12">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="list-unstyled">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @if (session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session()->has('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(session()->has('warning'))
+                        <div class="alert alert-warning">
+                            {{ session('warning') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        {{-- <div class="container">
+            @if(session()->has('success'))
+                <p class="alert alert-success">{{ session()->get('success') }}</p>
+            @endif
+            @if(session()->has('warning'))
+                <p class="alert alert-warning">{{ session()->get('warning') }}</p>
+            @endif
+        </div> --}}
+ 		<!-- Search Panel -->
 		<div class="search_panel trans_300">
 			<div class="container">
 				<div class="row">
@@ -176,7 +233,11 @@
 		</div>
 	</div>
 
-	@yield('content')
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        @yield('content')
+    </div>
+
 
 	<!-- Footer -->
 

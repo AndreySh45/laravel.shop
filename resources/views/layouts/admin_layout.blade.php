@@ -115,6 +115,28 @@
 
                 </ul>
             </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-calculator"></i>
+                    <p>
+                        Заказы
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('orders.index')}}" class="nav-link">
+                            <p>Все заказы</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('orders.create')}}" class="nav-link">
+                            <p>Добавить заказ</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
     </nav>
       <!-- /.sidebar-menu -->

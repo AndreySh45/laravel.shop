@@ -19,12 +19,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/spa/{any}', [SpaController::class, 'index'])->where('any', '.*');
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('index');
+
+
+/* Route::get('/cart', [CartController::class, 'index'])->name('cartIndex');
+Route::get('/cart/place', [CartController::class, 'cartPlace'])->name('cartPlace');
+
+Route::post('/cart/remove/{id}', [CartController::class, 'cartRemove'])->name('cartRemove');
+Route::post('/cart/place', [CartController::class, 'cartConfirm'])->name('cartConfirm');
+Route::post('/cart/add/{id}', [CartController::class, 'cartAdd'])->name('cartAdd'); */
+
+Route::group(['prefix' => 'cart'], function () {
+    Route::post('/add/{id}', [CartController::class, 'cartAdd'])->name('cartAdd');
+
+    Route::group([
+        'middleware' => 'cart_not_empty',
+    ], function () {
+        Route::get('/', [CartController::class, 'index'])->name('cartIndex');
+        Route::get('/place', [CartController::class, 'cartPlace'])->name('cartPlace');
+        Route::post('/remove/{id}', [CartController::class, 'cartRemove'])->name('cartRemove');
+        Route::post('/place', [CartController::class, 'cartConfirm'])->name('cartConfirm');
+    });
+});
+
+
+
+
 Route::get('/catedory/{cat}/{product_id}', [ProductController::class, 'show'] )->name('showProduct');
 Route::get('/catedory/{cat}', [ProductController::class, 'showCategory'] )->name('showCategory');
-Route::get('/cart', [CartController::class, 'index'] )->name('cartIndex');
-
-Route::post('/add-to-cart', [CartController::class, 'addToCart'] )->name('addToCart');
 
 Auth::routes();
 
@@ -34,4 +56,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin_pa
     Route::get('/', 'MainController@index')->name('homeAdmin'); // /admin
     Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
+    Route::resource('orders', 'OrderController');
 });

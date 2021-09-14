@@ -30,4 +30,11 @@ class Product extends Model
         return $img;
     }
 
+    public function getPriceForCount() {
+        if (!is_null($this->count)) {
+            return $this->count->count * $this->price;
+        }
+        return $this->price;
+    }
+
 }

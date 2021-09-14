@@ -6,35 +6,7 @@
 @endsection
 @section('custom_js')
     <script src="/js/product.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('.cart_button').click(function (event) {
-                event.preventDefault()
-                addToCart()
-            })
-        })
-        function addToCart(){
-            let id = $('.details_name').data('id')
-            let qty = parseInt($('#quantity_input').val())
-            $.ajax({
-                url: "{{route('addToCart')}}",
-                type: "POST",
-                data: {
-                    id: id,
-                    qty: qty,
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: (data) => {
-                    console.log(data)
-                },
-                error: (data) => {
-                    console.log(data)
-                }
-            });
-        }
-    </script>
+
 @endsection
 
 @section('content')
@@ -143,7 +115,7 @@
                     <div class="reviews_title"><a href="#">Reviews <span>(1)</span></a></div>
                 </div>
                 <div class="description_text">
-                    <p>{{$item->description}}</p>
+                    <p>{!!$item->description!!}</p>
                 </div>
             </div>
         </div>

@@ -67,14 +67,14 @@
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>65</h3>
+                  <h3>{{$orders_count}}</h3>
 
                   <p>Заказы</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="#" class="small-box-footer">Все заказы <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{route('orders.index')}}" class="small-box-footer">Все заказы <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->

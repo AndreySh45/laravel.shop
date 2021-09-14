@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('title', 'Home')
 
+
 @section('content')
 <!-- Home -->
 
@@ -145,6 +146,10 @@
                                         <div class="product_price">${{$product->price}}</div>
                                     @endif
                                 </div>
+                                <form action="{{ route('cartAdd', $product) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
+                                </form>
                             </div>
                     @endforeach
                 </div>
