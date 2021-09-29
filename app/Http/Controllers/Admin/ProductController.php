@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -39,15 +40,8 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'category_id' => 'required|integer',
-            'price' => 'required|integer',
-        ]);
-
         $data = $request->all();
         $product = Product::create($data);
         $product->images()->create(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);
@@ -86,14 +80,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'category_id' => 'required|integer',
-            'price' => 'required|integer',
-        ]);
         $data = $request->all();
         $product->update($data);
         $product->images()->update(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);

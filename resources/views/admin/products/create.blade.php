@@ -26,12 +26,12 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Название</label>
                                     <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="exampleInputEmail1"
-                                        placeholder="Введите название товара" required>
+                                    value="{{ old('title', isset($product) ? $product->title : null) }}" placeholder="Введите название товара" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Цена товара</label>
                                     <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="exampleInputEmail1"
-                                        placeholder="Введите цену" required>
+                                    value="{{ old('price', isset($product) ? $product->price : null) }}"    placeholder="Введите цену" required>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">

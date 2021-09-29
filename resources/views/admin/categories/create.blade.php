@@ -26,7 +26,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Название</label>
                                     <input type="text" name="title" class="form-control" id="exampleInputEmail1"
-                                        placeholder="Введите название категории" required>
+                                    value="{{ old('title', isset($category) ? $category->title : null) }}" placeholder="Введите название категории" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="desc">Описание категории</label>
