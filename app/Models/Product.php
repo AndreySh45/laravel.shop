@@ -13,7 +13,10 @@ class Product extends Model
         'description',
         'price',
         'in_stock',
-        'category_id'
+        'category_id',
+        'hit',
+        'new',
+        'recommend'
     ];
     public function images(){
         return $this->hasMany('App\Models\ProductImage');
@@ -27,7 +30,12 @@ class Product extends Model
         if (!$img) {
             return asset("no_image.png");
         }
-        return $img;
+        return asset("uploads/{$img}");
+
+
+
+
+
     }
 
     public function getPriceForCount() {

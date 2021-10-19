@@ -48,6 +48,8 @@ class CartController extends Controller
         return view('order.index', compact('order'));
     }
 
+
+
     public function cartAdd($productId) {
         $orderId = session('orderId');
         if (is_null($orderId)) {

@@ -32,17 +32,17 @@
 							<div class="logo"><a href="/">Sublime.</a></div>
 							<nav class="main_nav">
 								<ul>
-									<li class="hassubs active">
-										<a href="index.html">Home</a>
+									<li @routeactive('index')>
+										<a href="/">Home</a>
 										<ul>
-											<li><a href="categories.html">Categories</a></li>
+											<li><a href="{{ route('reset') }}">Reset</a></li>
 											<li><a href="product.html">Product</a></li>
 											<li><a href="cart.html">Cart</a></li>
 											<li><a href="checkout.html">Check out</a></li>
 											<li><a href="contact.html">Contact</a></li>
 										</ul>
 									</li>
-									<li class="hassubs">
+									<li @routeactive('showCategory')>
 										<a href="categories.html">Categories</a>
 										<ul>
                                             @foreach ($categories as $category)

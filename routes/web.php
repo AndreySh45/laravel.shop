@@ -1,12 +1,13 @@
 <?php
 
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\SpaController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SpaController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResetController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/spa/{any}', [SpaController::class, 'index'])->where('any', '.*');
 Route::get('/', [HomeController::class, 'index'])->name('index');
-
+Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
 
 /* Route::get('/cart', [CartController::class, 'index'])->name('cartIndex');
 Route::get('/cart/place', [CartController::class, 'cartPlace'])->name('cartPlace');

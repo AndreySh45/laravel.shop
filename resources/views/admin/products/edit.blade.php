@@ -59,10 +59,10 @@
                                     <label for="feature_image">Изображение товара</label>
                                     @foreach($product->images as $img)
                                         @if($loop->first)
-                                            <img src="{{$img['img']}}" alt="{{$product->title}}" class="img-uploaded" style="display: block; width: 300px">
-                                            <input type="text" class="form-control mt-2" id="feature_image" value="{{ $img['img'] }}" name="img" value="" readonly>
+                                            <img src="{{$product->getImage()}}" alt="{{$product->title}}" class="img-uploaded" style="display: block; width: 300px">
+                                            <input type="text" class="form-control mt-2" id="feature_image" value="{{ $product->getImage() }}" name="img" value="" readonly>
                                         @else
-                                            <img src="{{$img['img']}}" alt="{{$product->title}}" class="img-uploaded" style="display: block; width: 300px">
+                                            <img src="{{$product->getImage()}}" alt="{{$product->title}}" class="img-uploaded" style="display: block; width: 300px">
                                             <input type="text" class="form-control mt-2" id="feature_image" value="{{ $img['img'] }}" name="img" value="" readonly>
                                         @endif
                                     @endforeach
