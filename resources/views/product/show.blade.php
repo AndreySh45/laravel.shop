@@ -40,7 +40,7 @@
             <div class="col-lg-6">
                 <div class="details_image">
 
-                    <div class="details_image_large"><img src="{{ $item->getImage()}}" alt=""><div class="product_extra product_new"><a href="categories.html">New</a></div></div>
+                    <div class="details_image_large"><img src="{{ $item->getImage()}}" alt=""></div>
                     <div class="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
                         @if($item->getImage() == 'no_image.png')
 
@@ -75,6 +75,19 @@
                             <span>In Stock</span>
                         @else
                             <span style="color: #cc0000">Unavailable</span>
+                        @endif
+                    </div>
+                    <!-- Labels -->
+                    <div class="in_stock_container">
+                        <div class="availability">Labels:</div>
+                        @if($item->isNew())
+                            <span style="color: #4519f5">New</span>
+                        @endif
+                        @if($item->isRecommend())
+                            <span style="color: #e0cb0b">Recommend</span>
+                        @endif
+                        @if($item->isHit())
+                            <span style="color: #e95a5a">Hit</span>
                         @endif
                     </div>
                     <div class="details_text">

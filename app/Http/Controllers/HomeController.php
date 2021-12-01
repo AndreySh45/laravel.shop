@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductsFilterRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,26 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(ProductsFilterRequest $request)
     {
-        $products = Product::orderBy('created_at','desc')->take(8)->get();
+        $productsQuery = Product::with('category');
+
+        if ($request->filled('price_from')) {
+            $productsQuery->where('price', '>=', $request->price_from);
+        }
+
+        if ($request->filled('price_to')) {
+            $productsQuery->where('price', '<=', $request->price_to);
+        }
+
+        foreach (['hit', 'new', 'recommend'] as $field) {
+            if ($request->has($field)) {
+                $productsQuery->$field();
+            }
+        }
+
+        $products = $productsQuery->orderBy('price', 'desc')->paginate(3)->withQueryString();
+
         return view('home.index', compact('products'));
     }
 

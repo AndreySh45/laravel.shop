@@ -1131,10 +1131,10 @@ section
 {
 	position: absolute;
 	top: 0;
-	left: 54px;
-	width: 100px;
+    left: 124px;
+	width: 120px;
 	height: 36px;
-	text-align: center;
+	text-align:center;
 	-webkit-transform-origin: top left;
 	-moz-transform-origin: top left;
 	-ms-transform-origin: top left;
@@ -1145,6 +1145,7 @@ section
 .product_extra a
 {
 	display: block;
+    margin-bottom: 8px;
 	font-size: 16px;
 	font-weight: 500;
 	color: #FFFFFF;
@@ -1160,7 +1161,7 @@ section
 }
 .product_hot
 {
-	background: #1b1b1b;
+	background: #e0cb0b;
 }
 
 /*********************************

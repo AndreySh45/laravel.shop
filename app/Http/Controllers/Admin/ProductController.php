@@ -83,6 +83,12 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->all();
+
+        foreach (['in_stock', 'new', 'hit', 'recommend'] as $fieldName) {
+            if (!isset($data[$fieldName])) {
+                $data[$fieldName] = 0;
+            }
+        }
         $product->update($data);
         $product->images()->update(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);
 

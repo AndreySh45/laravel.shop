@@ -23,7 +23,7 @@ class CardFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'desk_list_id' => $this->faker->numberBetween(2, 40),
+            'desk_list_id' => $this->faker->numberBetween(2, 20),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];

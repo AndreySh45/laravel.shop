@@ -122,9 +122,9 @@
                             @endphp
                             <div class="product">
                                 <div class="product_image"><img src="{{$product->getImage()}}" alt="{{$product->title}}"></div>
-                                <div class="product_extra product_sale"><a href="{{route('showCategory', $product->category['title'])}}">{{$product->category['title']}}</a></div>
+                                <div class="product_extra product_sale"><a href="{{route('showCategory', isset($cat) ? $cat->slug : $product->category['title'])}}">{{$cat->title}}</a></div>
                                 <div class="product_content">
-                                    <div class="product_title"><a href="{{route('showProduct', [$product->category['title'], $product->id])}}">{{$product->title}}</a></div>
+                                    <div class="product_title"><a href="{{route('showProduct', [isset($cat) ? $cat->slug : $product->category['title'], $product->id])}}">{{$product->title}}</a></div>
                                     @if($product->new_price != null)
                                         <div style="text-decoration: line-through">${{$product->price}}</div>
                                         <div class="product_price">${{$product->new_price}}</div>

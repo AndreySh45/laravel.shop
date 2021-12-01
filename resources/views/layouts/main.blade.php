@@ -36,8 +36,8 @@
 										<a href="/">Home</a>
 										<ul>
 											<li><a href="{{ route('reset') }}">Reset</a></li>
-											<li><a href="product.html">Product</a></li>
-											<li><a href="cart.html">Cart</a></li>
+											<li><a href="/spa/1">SPA Trollo</a></li>
+											<li><a href="{{route('cartIndex')}}">Cart</a></li>
 											<li><a href="checkout.html">Check out</a></li>
 											<li><a href="contact.html">Contact</a></li>
 										</ul>

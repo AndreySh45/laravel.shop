@@ -14,6 +14,6 @@ class DeskListSeeder extends Seeder
      */
     public function run()
     {
-        DeskList::factory(40)->create();
+        DeskList::factory(20)->create();
     }
 }

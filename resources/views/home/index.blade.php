@@ -123,6 +123,39 @@
     </div>
 </div>
 
+<div class="container mt-3">
+<form method="GET" action="{{route("index")}}">
+    <div class="filters row">
+        <div class="col-sm-6 col-md-3">
+            <label for="price_from">Цена от
+                <input type="text" name="price_from" id="price_from" size="6" value="{{ request()->price_from}}">
+            </label>
+            <label for="price_to">до
+                <input type="text" name="price_to" id="price_to" size="6"  value="{{ request()->price_to }}">
+            </label>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <label for="hit">
+                <input type="checkbox" name="hit" id="hit" @if(request()->has('hit')) checked @endif> Хит
+            </label>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <label for="new">
+                <input type="checkbox" name="new" id="new" @if(request()->has('new')) checked @endif> Новинка
+            </label>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <label for="recommend">
+                <input type="checkbox" name="recommend" id="recommend" @if(request()->has('recommend')) checked @endif> Рекомендуем
+            </label>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <button type="submit" class="btn btn-primary">Фильтр</button>
+            <a href="{{ route("index") }}" class="btn btn-warning">Сброс</a>
+        </div>
+    </div>
+</form>
+</div>
 <!-- Products -->
 
 <div class="products">
@@ -136,7 +169,17 @@
 
                             <div class="product">
                                 <div class="product_image"><img src="{{ $product->getImage()}}" alt="{{$product->title}}"></div>
-                                <div class="product_extra product_new"><a href="{{route('showCategory', $product->category['title'])}}">{{$product->category['title']}}</a></div>
+                                <div class="product_extra">
+                                    @if($product->isNew())
+                                        <div class="product_new"><a href="{{route('showCategory', $product->category['title'])}}">New</a></div>
+                                    @endif
+                                    @if($product->isRecommend())
+                                        <div class="product_hot"><a href="{{route('showCategory', $product->category['title'])}}">Recommend</a></div>
+                                    @endif
+                                    @if($product->isHit())
+                                        <div class="product_sale"><a href="{{route('showCategory', $product->category['title'])}}">Hit</a></div>
+                                    @endif
+                                </div>
                                 <div class="product_content">
                                     <div class="product_title"><a href="{{route('showProduct', [$product->category['title'], $product->id])}}">{{$product->title}}</a></div>
                                     @if($product->new_price != null)
@@ -153,8 +196,10 @@
                             </div>
                     @endforeach
                 </div>
-
             </div>
+        </div>
+        <div class="col-md-12 mb-3">
+            {{ $products->links() }}
         </div>
     </div>
 </div>

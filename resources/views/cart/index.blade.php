@@ -51,7 +51,7 @@
 
         <div class="row cart_items_row">
             <div class="col">
-                @foreach($order->products as $product)
+                @foreach($order->products()->with('category')->get() as $product)
                 <!-- Cart Item -->
                 <div class="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
                     <!-- Name -->
@@ -151,7 +151,7 @@
                         <ul>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">Subtotal</div>
-                                <div class="cart_total_value ml-auto">{{ $order->getFullPrice() }} руб.</div>
+                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} руб.</div>
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">Shipping</div>

@@ -33,11 +33,30 @@
                                     <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" id="exampleInputEmail1"
                                     value="{{ old('price', isset($product) ? $product->price : null) }}"    placeholder="Введите цену" required>
                                 </div>
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input name="in_stock" class="form-check-input" type="checkbox" value="1">
-                                        <label class="form-check-label">Наличие товара</label>
+                                <div class="form-inline">
+                                    <div class="form-check mb-2 mr-sm-2">
+                                            <div class="form-check">
+                                                <input name="in_stock" class="form-check-input" type="checkbox" id="in_stock">
+                                                <label class="form-check-label">Наличие товара</label>
+                                            </div>
+                                            <br>
                                     </div>
+                                        @foreach ([
+                                            'hit' => 'Хит',
+                                            'new' => 'Новинка',
+                                            'recommend' => 'Рекомендуемые'
+                                            ] as $field => $title)
+                                            <div class="form-check mb-2 mr-sm-2">
+                                                <label for="code" class="form-check-label">{{ $title }}: </label>
+                                                <div class="ml-2">
+                                                    <input class="form-check-input" type="checkbox" name="{{$field}}" id="{{$field}}"
+                                                    @if(isset($product) && $product->$field === 1)
+                                                        checked="checked"
+                                                    @endif
+                                                    >
+                                                </div>
+                                            </div>
+                                        @endforeach
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Описание товара</label>
