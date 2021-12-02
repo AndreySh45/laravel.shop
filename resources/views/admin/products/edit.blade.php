@@ -32,6 +32,10 @@
                                     <label for="exampleInputEmail1">Цена товара</label>
                                     <input type="text" value="{{ $product->price }}" name="price" class="form-control @error('price') is-invalid @enderror" id="exampleInputEmail1" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Количество товара</label>
+                                    <input type="text" value="{{ $product->count }}" name="count" class="form-control @error('count') is-invalid @enderror" id="exampleInputEmail1" required>
+                                </div>
                                 <div class="form-inline">
                                     <div class="form-check mb-2 mr-sm-2">
                                             <div class="form-check">

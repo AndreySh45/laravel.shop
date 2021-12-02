@@ -57,13 +57,13 @@
                                         {{ $order->created_at->format('H:i d/m/Y') }}
                                     </td>
                                     <td>
-                                        {{ $order->getFullPrice() }} руб.
+                                        {{ $order->calculateFullSum() }} руб.
                                     </td>
                                     <td class="project-actions text-right">
-                                        <a class="btn btn-info btn-sm" href="{{ route('orders.edit', $order->id) }}">
+                                        <a class="btn btn-info btn-sm" href="{{ route('orders.show', $order) }}">
                                             <i class="fas fa-pencil-alt">
                                             </i>
-                                            Редактировать
+                                            Открыть
                                         </a>
                                         <form action="{{ route('orders.destroy', $order->id) }}" method="POST"
                                         style="display: inline-block">

@@ -49,7 +49,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $products = $order->products()->withTrashed()->get();
+
+        return view('admin.orders.show', compact('order', 'products'));
     }
 
     /**
@@ -83,6 +85,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+
+        return redirect()->back()->with('success','Заказ был успешно удален!');
     }
 }

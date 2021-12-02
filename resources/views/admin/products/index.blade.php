@@ -31,16 +31,14 @@
                                 <th>
                                     Цена
                                 </th>
+                                <th style="width: 40px">
+                                    Кол-во
+                                </th>
                                 <th>
                                     Категория
                                 </th>
-                                <th>
-                                    Наличие
-                                </th>
-                                <th>
+                                <th style="width: 50px">
                                     Дата добавления
-                                </th>
-                                <th style="width: 30%">
                                 </th>
                             </tr>
                         </thead>
@@ -57,10 +55,10 @@
                                         {{ $product['price'] }}
                                     </td>
                                     <td>
-                                        {{ $product->category['title'] }}
+                                        {{ $product->count }}
                                     </td>
                                     <td>
-                                        {{ $product['in_stock'] }}
+                                        {{ $product->category['title'] }}
                                     </td>
                                     <td>
                                         {{ $product['created_at'] }}
