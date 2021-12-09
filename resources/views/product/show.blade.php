@@ -14,14 +14,14 @@
 
 <div class="home">
     <div class="home_container">
-        <div class="home_background" style="background-image:url(/images/categories.jpg)"></div>
+        <div class="home_background" style="background-image:url('/uploads/{{$item->category->img}}')"></div>
         <div class="home_content_container">
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <div class="home_content">
-                            <div class="home_title">Smart Phones<span>.</span></div>
-                            <div class="home_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a ultricies metus. Sed nec molestie eros. Sed viverra velit venenatis fermentum luctus.</p></div>
+                            <div class="home_title">{{$item->category->title}}<span>.</span></div>
+                            <div class="home_text"><p>{{$item->category->desc}}</p></div>
                         </div>
                     </div>
                 </div>
@@ -94,18 +94,26 @@
                         <p>{!!$item->description!!}</p>
                     </div>
 
-                    <!-- Product Quantity -->
-                    <div class="product_quantity_container">
-                        <div class="product_quantity clearfix">
-                            <span>Qty</span>
-                            <input id="quantity_input" type="text" pattern="[0-9]*" value="1">
-                            <div class="quantity_buttons">
-                                <div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
-                                <div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                    <form action="{{ route('cartAdd', $item) }}" method="POST">
+                            @csrf
+                            @if($item->isAvailable())
+                                <!-- Product Quantity -->
+                            <div class="product_quantity_container">
+                                <div class="product_quantity clearfix">
+                                    <span>Qty</span>
+                                    <input id="quantity_input" type="text" pattern="[0-9]*" value="1">
+                                <div class="quantity_buttons">
+                                    <div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+                                    <div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="button cart_button"><a href="#">Add to cart</a></div>
-                    </div>
+                                <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
+                            @else
+                                <div class="product_quantity_container">
+                                    Не доступен
+                                </div>
+                            @endif
+                    </form>
 
                     <!-- Share -->
                     <div class="details_share">

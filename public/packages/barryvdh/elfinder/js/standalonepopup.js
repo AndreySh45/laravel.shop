@@ -16,6 +16,12 @@ $(document).on('click','.popup_selector',function (event) {
 });
 // function to update the file selected by elfinder
 function processSelectedFile(filePath, requestingField) {
-    $('#' + requestingField).val('/'+filePath).trigger('change');
-    $('.img-uploaded').attr('src', '/'+filePath).trigger('change');
+    while (filePath.indexOf("\\") >= 0) { filePath = filePath.replace("\\", "/"); } //Замена слэша в пути картинки товара
+    $('#' + requestingField).val(filePath).trigger('change');
+    $('.img-uploaded').attr('src', 'http://laravel.shop/uploads/'+filePath).trigger('change');
 }
+
+// function processSelectedFile(filePath, requestingField) {
+//     $('#' + requestingField).val('/'+filePath).trigger('change');
+//     $('.img-uploaded').attr('src', '/'+filePath).trigger('change');
+// }

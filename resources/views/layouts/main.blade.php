@@ -59,7 +59,11 @@
                                     <a href="{{route('login')}}">Log In</a>
                                 @else
                                     <div class="container d-flex flex-row align-items-center">
-                                    <a href="#">{{ Auth::user()->name }}</a>
+                                    @if (Auth::user()->hasRole('admin'))
+                                        <a href="{{route('homeAdmin')}}">Administrator</a>
+                                    @else
+                                        <a href="#">{{ Auth::user()->name }}</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">

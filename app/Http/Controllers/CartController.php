@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Cart;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -10,28 +11,17 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
     public function index() {
-        $orderId = session('orderId');
-        if (!is_null($orderId)) {
-            $order = Order::findOrFail($orderId);
-        }
+        $order = (new Cart())->getOrder();
 
         return view('cart.index', compact('order'));
     }
 
     public function cartConfirm(Request $request)
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('index');
-        }
-        //dd($request);
-        $order = Order::find($orderId);
-        $success = $order->saveOrder($request->name, $request->phone);
-
-        if ($success) {
+        if ((new Cart())->saveOrder($request->name, $request->phone)) {
             session()->flash('success', 'Ваш заказ принят в обработку!');
         } else {
-            session()->flash('warning', 'Случилась ошибка');
+            session()->flash('warning', 'Товар не доступен для заказа в полном объеме');
         }
 
         Order::eraseOrderSum();
@@ -41,71 +31,33 @@ class CartController extends Controller
 
     public function cartPlace()
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('index');
+        $cart = new Cart();
+        $order = $cart->getOrder();
+        if (!$cart->countAvailable()) {
+            session()->flash('warning', 'Товар не доступен для заказа в полном объеме');
+            return redirect()->route('cartIndex');
         }
-        $order = Order::find($orderId);
 
         return view('order.index', compact('order'));
     }
 
+    public function cartAdd(Product $product) {
 
-
-    public function cartAdd($productId) {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            $order = Order::create();
-            session(['orderId' => $order->id]);
-        }else {
-            $order = Order::find($orderId);
-        }
-
-        if ($order->products->contains($productId)) { //Проверка есть ли такой продукт в корзине?
-            $pivotRow = $order->products()->where('product_id', $productId)->first()->count; //Находим поле count
-            $pivotRow->count++; //Увеличиваем на один
-            $pivotRow->update();
+        $result = (new Cart(true))->addProduct($product);
+        if ($result) {
+            session()->flash('success', 'Добавлен товар '.$product->title);
         } else {
-            $order->products()->attach($productId); // Если такого товара нет, то добавляем его в корзину
+            session()->flash('warning', 'Товар '.$product->title . ' в большем кол-ве не доступен для заказа');
         }
-
-        if (Auth::check()) { //Если пользователь авторизован
-            $order->user_id = Auth::id(); //В поле user_id записываем ID пользователя
-            $order->save();
-        }
-
-        $product = Product::find($productId);
-        Order::changeFullSum($product->price);
-
-        session()->flash('success', 'Добавлен товар ' . $product->title);
 
         return redirect()->route('cartIndex');
     }
 
-
-    public function cartRemove($productId)
+    public function cartRemove(Product $product)
     {
-        $orderId = session('orderId');
-        if (is_null($orderId)) {
-            return redirect()->route('basket');
-        }
-        $order = Order::find($orderId);
-        if ($order->products->contains($productId)) {
-            $pivotRow = $order->products()->where('product_id', $productId)->first()->count; //Находим поле count
-            if ($pivotRow->count < 2) {
-                $order->products()->detach($productId); //Если товар в одном экземпляре удаляем его из корзины
-            } else {
-                $pivotRow->count--; //Уменьшаем на один
-                $pivotRow->update();
-            }
-        }
-        $product = Product::find($productId);
-        Order::changeFullSum(-$product->price);
-
-        session()->flash('warning', 'Удален товар  ' . $product->title);
+        (new Cart())->removeProduct($product);
+        session()->flash('warning', 'Удален товар  '.$product->title);
 
         return redirect()->route('cartIndex');
     }
-
-
 }

@@ -31,14 +31,14 @@ Route::post('/cart/place', [CartController::class, 'cartConfirm'])->name('cartCo
 Route::post('/cart/add/{id}', [CartController::class, 'cartAdd'])->name('cartAdd'); */
 
 Route::group(['prefix' => 'cart'], function () {
-    Route::post('/add/{id}', [CartController::class, 'cartAdd'])->name('cartAdd');
+    Route::post('/add/{product}', [CartController::class, 'cartAdd'])->name('cartAdd');
 
     Route::group([
         'middleware' => 'cart_not_empty',
     ], function () {
         Route::get('/', [CartController::class, 'index'])->name('cartIndex');
         Route::get('/place', [CartController::class, 'cartPlace'])->name('cartPlace');
-        Route::post('/remove/{id}', [CartController::class, 'cartRemove'])->name('cartRemove');
+        Route::post('/remove/{product}', [CartController::class, 'cartRemove'])->name('cartRemove');
         Route::post('/place', [CartController::class, 'cartConfirm'])->name('cartConfirm');
     });
 });

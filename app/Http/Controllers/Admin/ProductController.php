@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
-use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -44,7 +45,8 @@ class ProductController extends Controller
     {
         $data = $request->all();
         $product = Product::create($data);
-        $product->images()->create(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);
+        $product->images()->create(['product_id' => $product->id, 'img' => $request->img]);
+
 
         return redirect()->back()->with('success','Товар добавлен');
     }
@@ -83,6 +85,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->all();
+        unset($data['img']);
 
         foreach (['in_stock', 'new', 'hit', 'recommend'] as $fieldName) {
             if (!isset($data[$fieldName])) {
@@ -90,10 +93,16 @@ class ProductController extends Controller
             }
         }
         $product->update($data);
-        $product->images()->update(['product_id' => $product->id, 'img' => str_replace('\\','/',$request->img)]);
+        if ($request->hasFile('img')) {
+            $product->images()->update(['product_id' => $product->id, 'img' => $request->img]);
+        }
 
         return redirect()->back()->with('success','Товар был успешно обновлен!');
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

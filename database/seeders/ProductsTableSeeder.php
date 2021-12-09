@@ -30,6 +30,7 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0,
                 'hit' => 1,
                 'recommend' => 1,
+                'count' => rand(0, 10),
             ],
             [
                 'id' => 2,
@@ -41,6 +42,7 @@ class ProductsTableSeeder extends Seeder
                 'new' => 1,
                 'hit' => 0,
                 'recommend' => 0,
+                'count' => rand(0, 10),
             ],
             [
                 'id' => 3,
@@ -52,6 +54,7 @@ class ProductsTableSeeder extends Seeder
                 'new' => 0,
                 'hit' => 1,
                 'recommend' => 0,
+                'count' => rand(0, 10),
             ],
             [
                 'id' => 4,
@@ -65,6 +68,7 @@ class ProductsTableSeeder extends Seeder
                 'new' => 1,
                 'hit' => 1,
                 'recommend' => 0,
+                'count' => rand(0, 10),
             ],
         ]);
     }

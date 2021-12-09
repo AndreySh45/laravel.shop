@@ -191,7 +191,11 @@
                                 </div>
                                 <form action="{{ route('cartAdd', $product) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
+                                    @if($product->isAvailable())
+                                        <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
+                                    @else
+                                        Не доступен
+                                    @endif
                                 </form>
                             </div>
                     @endforeach

@@ -70,7 +70,7 @@
                     <div class="cart_item_quantity">
                         <div class="product_quantity_container">
                             <div class="product_quantity clearfix">
-                                <span class="badge">{{$product->count->count}}</span>
+                                <span class="badge">{{$product->pivot->count}}</span>
                                 {{-- <input id="quantity_input" type="text" value="{{$product->count->count}}"> --}}
                                 <div class="quantity_buttons">
                                     <form action="{{ route('cartRemove', $product) }}" method="POST">
