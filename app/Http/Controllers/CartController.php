@@ -18,7 +18,8 @@ class CartController extends Controller
 
     public function cartConfirm(Request $request)
     {
-        if ((new Cart())->saveOrder($request->name, $request->phone)) {
+        $email = Auth::check() ? Auth::user()->email : $request->email;
+        if ((new Cart())->saveOrder($request->name, $request->phone, $email)) {
             session()->flash('success', 'Ваш заказ принят в обработку!');
         } else {
             session()->flash('warning', 'Товар не доступен для заказа в полном объеме');

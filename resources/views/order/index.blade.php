@@ -105,7 +105,7 @@
                             <div>
                                 <!-- Email -->
                                 <label for="checkout_email">Email Address*</label>
-                                <input type="phone" id="checkout_email" class="checkout_input">
+                                <input type="phone" name="email" id="checkout_email" class="checkout_input">
                             </div>
                             <div class="checkout_extra">
                                 <div>
