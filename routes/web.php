@@ -30,6 +30,7 @@ Route::post('/cart/remove/{id}', [CartController::class, 'cartRemove'])->name('c
 Route::post('/cart/place', [CartController::class, 'cartConfirm'])->name('cartConfirm');
 Route::post('/cart/add/{id}', [CartController::class, 'cartAdd'])->name('cartAdd'); */
 
+Route::post('subscription/{product}', [ProductController::class, 'subscribe'])->name('subscription');
 Route::group(['prefix' => 'cart'], function () {
     Route::post('/add/{product}', [CartController::class, 'cartAdd'])->name('cartAdd');
 

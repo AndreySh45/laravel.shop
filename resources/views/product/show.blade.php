@@ -67,16 +67,6 @@
                     @else
                         <div class="product_price">${{$item->price}}</div>
                     @endif
-
-                    <!-- In Stock -->
-                    <div class="in_stock_container">
-                        <div class="availability">Availability:</div>
-                        @if($item->in_stock)
-                            <span>In Stock</span>
-                        @else
-                            <span style="color: #cc0000">Unavailable</span>
-                        @endif
-                    </div>
                     <!-- Labels -->
                     <div class="in_stock_container">
                         <div class="availability">Labels:</div>
@@ -94,26 +84,24 @@
                         <p>{!!$item->description!!}</p>
                     </div>
 
-                    <form action="{{ route('cartAdd', $item) }}" method="POST">
+                    @if($item->isAvailable())
+                        <form action="{{ route('cartAdd', $item) }}" method="POST">
                             @csrf
-                            @if($item->isAvailable())
-                                <!-- Product Quantity -->
-                            <div class="product_quantity_container">
-                                <div class="product_quantity clearfix">
-                                    <span>Qty</span>
-                                    <input id="quantity_input" type="text" pattern="[0-9]*" value="1">
-                                <div class="quantity_buttons">
-                                    <div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
-                                    <div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
-                                </div>
-                            </div>
-                                <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
-                            @else
-                                <div class="product_quantity_container">
-                                    Не доступен
-                                </div>
-                            @endif
-                    </form>
+                            <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
+                        </form>
+                    @else
+                        <div class="product_quantity_container">
+                            <span style="color: #cc0000">Не доступен</span>
+                            <br>
+                            <span style="color: #4519f5">Сообщить мне, когда товар появится в наличии:</span>
+                            <form method="POST" action="{{ route('subscription', $item) }}">
+                                @csrf
+                                <input type="email" class="contact_email" name="email" placeholder="Email">
+                                <button type="submit" class="newsletter_button trans_200"><span>Send</span></button>
+                            </form>
+                        </div>
+                    @endif
+
 
                     <!-- Share -->
                     <div class="details_share">

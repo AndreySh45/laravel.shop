@@ -86,6 +86,9 @@
                 </div>
                      <!-- /.card-body -->
             </div>
+            <div class="col-md-12 mb-3">
+                {{ $orders->links() }}
+            </div>
             @else
                 <p> Заказов пока нет...</p>
             @endif

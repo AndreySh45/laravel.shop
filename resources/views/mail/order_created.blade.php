@@ -7,7 +7,7 @@
     @foreach($order->products as $product)
         <tr>
             <td>
-                <a href="{{ route('products.edit', $product['id']) }}">
+                <a href="{{ route('showProduct', [$product->category['title'], $product->id]) }}">
                     <img height="56px" src="{{ $product->getImage() }}">
                     {{ $product->title }}
                 </a>

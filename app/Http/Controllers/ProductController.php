@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
+use App\Http\Requests\SubscriptionRequest;
 
 class ProductController extends Controller
 {
@@ -13,6 +15,7 @@ class ProductController extends Controller
 
         return view('product.show', compact('item'));
     }
+
     public function showCategory(Request $request, $cat_alias){
         $cat = Category::where('slug', $cat_alias)->firstOrFail();
         $paginate = 8;
@@ -38,6 +41,16 @@ class ProductController extends Controller
 
 
         return view('categories.index', compact('cat', 'products'));
+    }
+
+    public function subscribe(SubscriptionRequest $request, Product $product)
+    {
+        Subscription::create([
+            'email' => $request->email,
+            'product_id' => $product->id,
+        ]);
+
+        return redirect()->back()->with('success', 'Спасибо, мы сообщим вам о поступлении товара');
     }
 
 }
