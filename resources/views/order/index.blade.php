@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Order')
+@section('title', __('cart.ordering'))
 @section('custom_css')
     <link rel="stylesheet" type="text/css" href="/styles/checkout.css">
     <link rel="stylesheet" type="text/css" href="/styles/checkout_responsive.css">
@@ -20,9 +20,9 @@
                         <div class="home_content">
                             <div class="breadcrumbs">
                                 <ul>
-                                    <li><a href="{{route('index')}}">Home</a></li>
-                                    <li><a href="{{route('cartIndex')}}">Shopping Cart</a></li>
-                                    <li>Checkout</li>
+                                    <li><a href="{{route('index')}}">@lang('main.title')</a></li>
+                                    <li><a href="{{route('cartIndex')}}">@lang('cart.breadcrumbs_cart')</a></li>
+                                    <li>@lang('cart.ordering')</li>
                                 </ul>
                             </div>
                         </div>

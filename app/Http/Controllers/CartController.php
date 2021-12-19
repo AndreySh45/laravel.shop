@@ -12,17 +12,18 @@ class CartController extends Controller
 {
     public function index() {
         $order = (new Cart())->getOrder();
+        $products = $order->products()->with('category')->get();
 
-        return view('cart.index', compact('order'));
+        return view('cart.index', compact('order', 'products'));
     }
 
     public function cartConfirm(Request $request)
     {
         $email = Auth::check() ? Auth::user()->email : $request->email;
         if ((new Cart())->saveOrder($request->name, $request->phone, $email)) {
-            session()->flash('success', 'Ваш заказ принят в обработку!');
+            session()->flash('success', __('cart.you_order_confirmed'));
         } else {
-            session()->flash('warning', 'Товар не доступен для заказа в полном объеме');
+            session()->flash('warning', __('cart.you_cant_order_more'));
         }
 
         Order::eraseOrderSum();
@@ -35,7 +36,7 @@ class CartController extends Controller
         $cart = new Cart();
         $order = $cart->getOrder();
         if (!$cart->countAvailable()) {
-            session()->flash('warning', 'Товар не доступен для заказа в полном объеме');
+            session()->flash('warning',  __('cart.you_cant_order_more'));
             return redirect()->route('cartIndex');
         }
 
@@ -46,9 +47,9 @@ class CartController extends Controller
 
         $result = (new Cart(true))->addProduct($product);
         if ($result) {
-            session()->flash('success', 'Добавлен товар '.$product->title);
+            session()->flash('success', __('cart.added').$product->title);
         } else {
-            session()->flash('warning', 'Товар '.$product->title . ' в большем кол-ве не доступен для заказа');
+            session()->flash('warning', $product->title . __('cart.not_available_more'));
         }
 
         return redirect()->route('cartIndex');
@@ -57,7 +58,7 @@ class CartController extends Controller
     public function cartRemove(Product $product)
     {
         (new Cart())->removeProduct($product);
-        session()->flash('warning', 'Удален товар  '.$product->title);
+        session()->flash('warning', __('cart.removed').$product->title);
 
         return redirect()->route('cartIndex');
     }

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', $cat->title)
+@section('title', $cat->__('title'))
 @section('custom_css')
     <link rel="stylesheet" type="text/css" href="/styles/categories.css">
     <link rel="stylesheet" type="text/css" href="/styles/categories_responsive.css">
@@ -65,8 +65,8 @@
 					<div class="row">
 						<div class="col">
 							<div class="home_content">
-								<div class="home_title">{{$cat->title}}<span>.</span></div>
-								<div class="home_text"><p>{{$cat->desc}}</p></div>
+								<div class="home_title">{{$cat->__('title')}}<span>.</span></div>
+								<div class="home_text"><p>{{$cat->__('desc')}}</p></div>
 							</div>
 						</div>
 					</div>

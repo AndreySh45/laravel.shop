@@ -50,7 +50,7 @@ class ProductController extends Controller
             'product_id' => $product->id,
         ]);
 
-        return redirect()->back()->with('success', 'Спасибо, мы сообщим вам о поступлении товара');
+        return redirect()->back()->with('success', __('product.we_will_update'));
     }
 
 }

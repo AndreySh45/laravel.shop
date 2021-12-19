@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Cart')
+@section('title', __('cart.cart'))
 @section('custom_css')
     <link rel="stylesheet" type="text/css" href="/styles/cart.css">
     <link rel="stylesheet" type="text/css" href="/styles/cart_responsive.css">
@@ -21,8 +21,8 @@
                         <div class="home_content">
                             <div class="breadcrumbs">
                                 <ul>
-                                    <li><a href="{{route('index')}}">Home</a></li>
-                                    <li>Shopping Cart</li>
+                                    <li><a href="{{route('index')}}">@lang('main.title')</a></li>
+                                    <li>@lang('cart.breadcrumbs_cart')</li>
                                 </ul>
                             </div>
                         </div>
@@ -41,17 +41,17 @@
             <div class="col">
                 <!-- Column Titles -->
                 <div class="cart_info_columns clearfix">
-                    <div class="cart_info_col cart_info_col_product">Product</div>
-                    <div class="cart_info_col cart_info_col_price">Price</div>
-                    <div class="cart_info_col cart_info_col_quantity">Quantity</div>
-                    <div class="cart_info_col cart_info_col_total">Total</div>
+                    <div class="cart_info_col cart_info_col_product">@lang('cart.name')</div>
+                    <div class="cart_info_col cart_info_col_price">@lang('cart.price')</div>
+                    <div class="cart_info_col cart_info_col_quantity">@lang('cart.count')</div>
+                    <div class="cart_info_col cart_info_col_total">@lang('cart.cost')</div>
                 </div>
             </div>
         </div>
 
         <div class="row cart_items_row">
             <div class="col">
-                @foreach($order->products()->with('category')->get() as $product)
+                @foreach($products as $product)
                 <!-- Cart Item -->
                 <div class="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
                     <!-- Name -->
@@ -61,11 +61,15 @@
                         </div>
                         <div class="cart_item_name_container">
                             <div class="cart_item_name"><a href="{{route('showProduct', [$product->category['title'], $product])}}">{{$product->title}}</a></div>
-                            <div class="cart_item_edit"><a href="#">Edit Product</a></div>
+                            @auth
+                            @if (Auth::user()->hasRole('admin'))
+                            <div class="cart_item_edit"><a href="{{ route('products.edit', $product->id) }}">@lang('cart.edit')</a></div>
+                            @endif
+                            @endauth
                         </div>
                     </div>
                     <!-- Price -->
-                    <div class="cart_item_price">{{$product->price}}</div>
+                    <div class="cart_item_price">{{$product->price}} @lang('main.rub').</div>
                     <!-- Quantity -->
                     <div class="cart_item_quantity">
                         <div class="product_quantity_container">
@@ -87,7 +91,7 @@
                         </div>
                     </div>
                     <!-- Total -->
-                    <div class="cart_item_total">{{ $product->getPriceForCount() }} руб.</div>
+                    <div class="cart_item_total">{{ $product->getPriceForCount() }} @lang('main.rub').</div>
                 </div>
                 @endforeach
             </div>
@@ -145,17 +149,17 @@
 
             <div class="col-lg-6 offset-lg-2">
                 <div class="cart_total">
-                    <div class="section_title">Cart total</div>
+                    <div class="section_title">@lang('cart.total')</div>
                     <div class="section_subtitle">Final info</div>
                     <div class="cart_total_container">
                         <ul>
                             <li class="d-flex flex-row align-items-center justify-content-start">
-                                <div class="cart_total_title">Subtotal</div>
-                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} руб.</div>
+                                <div class="cart_total_title">@lang('cart.subtotal')</div>
+                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} @lang('main.rub').</div>
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
-                                <div class="cart_total_title">Shipping</div>
-                                <div class="cart_total_value ml-auto">Free</div>
+                                <div class="cart_total_title">@lang('cart.shipping')</div>
+                                <div class="cart_total_value ml-auto">@lang('cart.free')</div>
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">Total</div>
@@ -163,7 +167,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="button checkout_button"><a href="{{ route('cartPlace')}}">Proceed to checkout</a></div>
+                    <div class="button checkout_button"><a href="{{ route('cartPlace')}}">@lang('cart.place_order')</a></div>
                 </div>
             </div>
         </div>

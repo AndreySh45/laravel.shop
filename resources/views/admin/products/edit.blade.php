@@ -29,6 +29,11 @@
                                     <input type="text" value="{{ $product->title }}" name="title" class="form-control @error('title') is-invalid @enderror" id="exampleInputEmail1" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Название по-английски</label>
+                                    <input type="text" name="title_en" class="form-control @error('title_en') is-invalid @enderror" id="exampleInputEmail1"
+                                    value="{{ old('title_en', isset($product) ? $product->title_en : null) }}" placeholder="Введите английское название товара" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Цена товара</label>
                                     <input type="text" value="{{ $product->price }}" name="price" class="form-control @error('price') is-invalid @enderror" id="exampleInputEmail1" required>
                                 </div>
@@ -68,6 +73,10 @@
                                 <div class="form-group">
                                     <label for="description">Описание товара</label>
                                     <textarea name="description" class="editor @error('description') is-invalid @enderror">{{ $product['description'] }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description_en">Описание товара по-английски</label>
+                                    <textarea name="description_en" class="editor @error('description_en') is-invalid @enderror">{{ $product['description_en'] }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <!-- select -->

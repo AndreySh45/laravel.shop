@@ -30,8 +30,17 @@
                                         placeholder="Введите название категории" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Название по-английски</label>
+                                    <input type="text" value="{{ $category->title_en }}" name="title_en" class="form-control @error('title_en') is-invalid @enderror" id="exampleInputEmail1"
+                                        placeholder="Enter category name" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="desc">Описание категории</label>
                                     <textarea name="desc" class="form-control @error('desc') is-invalid @enderror" id="desc" rows="3" placeholder="Описание ...">{{ $category['desc'] }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc_en">Описание категории по-английски</label>
+                                    <textarea name="desc_en" class="form-control @error('desc_en') is-invalid @enderror" id="desc_en" rows="3" placeholder="Description ...">{{ $category['desc_en'] }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="img">Изображение</label>

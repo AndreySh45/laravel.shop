@@ -29,8 +29,17 @@
                                     value="{{ old('title', isset($category) ? $category->title : null) }}" placeholder="Введите название категории" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Название по-английски</label>
+                                    <input type="text" name="title_en" class="form-control" id="exampleInputEmail1"
+                                    value="{{ old('title_en', isset($category) ? $category->title_en : null) }}" placeholder="Enter category name" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="desc">Описание категории</label>
                                     <textarea name="desc" class="form-control @error('desc') is-invalid @enderror" id="desc" rows="3" placeholder="Описание ..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc_en">Описание категории на английском</label>
+                                    <textarea name="desc_en" class="form-control @error('desc_en') is-invalid @enderror" id="desc" rows="3" placeholder="Description ..."></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="img">Изображение</label>

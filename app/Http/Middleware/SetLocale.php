@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
-class CartIsNotEmpty
+class SetLocale
 {
     /**
      * Handle an incoming request.
@@ -17,13 +17,9 @@ class CartIsNotEmpty
      */
     public function handle(Request $request, Closure $next)
     {
-        $orderId = session('orderId');
-        if (!is_null($orderId) && Order::getFullSum() > 0) {
-            return $next($request);
-        }
+        $locale = session('locale');
+        App::setLocale($locale);
 
-        session()->flash('warning', __('cart.cart_is_empty'));
-        return redirect()->route('index');
-
+        return $next($request);
     }
 }

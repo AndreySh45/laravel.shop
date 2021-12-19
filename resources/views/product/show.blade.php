@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Product')
+@section('title', __('main.product'))
 @section('custom_css')
     <link rel="stylesheet" type="text/css" href="/styles/product.css">
     <link rel="stylesheet" type="text/css" href="/styles/product_responsive.css">
@@ -20,8 +20,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="home_content">
-                            <div class="home_title">{{$item->category->title}}<span>.</span></div>
-                            <div class="home_text"><p>{{$item->category->desc}}</p></div>
+                            <div class="home_title">{{$item->category->__('title')}}<span>.</span></div>
+                            <div class="home_text"><p>{{$item->category->__('desc')}}</p></div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
             <!-- Product Content -->
             <div class="col-lg-6">
                 <div class="details_content">
-                    <div class="details_name" data-id="{{$item->id}}">{{$item->title}}</div>
+                    <div class="details_name" data-id="{{$item->id}}">{{$item->__('title')}}</div>
                     @if($item->new_price != null)
                         <div class="details_discount">${{$item->price}}</div>
                         <div class="details_price">${{$item->new_price}}</div>
@@ -71,33 +71,33 @@
                     <div class="in_stock_container">
                         <div class="availability">Labels:</div>
                         @if($item->isNew())
-                            <span style="color: #4519f5">New</span>
+                            <span style="color: #4519f5">@lang('main.properties.new')</span>
                         @endif
                         @if($item->isRecommend())
-                            <span style="color: #e0cb0b">Recommend</span>
+                            <span style="color: #e0cb0b">@lang('main.properties.recommend')</span>
                         @endif
                         @if($item->isHit())
-                            <span style="color: #e95a5a">Hit</span>
+                            <span style="color: #e95a5a">@lang('main.properties.hit')</span>
                         @endif
                     </div>
                     <div class="details_text">
-                        <p>{!!$item->description!!}</p>
+                        <p>{!!$item->__('description')!!}</p>
                     </div>
 
                     @if($item->isAvailable())
                         <form action="{{ route('cartAdd', $item) }}" method="POST">
                             @csrf
-                            <button type="submit" class="newsletter_button trans_200"><span>Add to cart</span></button>
+                            <button type="submit" class="newsletter_button trans_200"><span>@lang('product.add_to_cart')</span></button>
                         </form>
                     @else
                         <div class="product_quantity_container">
-                            <span style="color: #cc0000">Не доступен</span>
+                            <span style="color: #cc0000">@lang('main.not_available')</span>
                             <br>
-                            <span style="color: #4519f5">Сообщить мне, когда товар появится в наличии:</span>
+                            <span style="color: #4519f5">@lang('product.tell_me')</span>
                             <form method="POST" action="{{ route('subscription', $item) }}">
                                 @csrf
                                 <input type="email" class="contact_email" name="email" placeholder="Email">
-                                <button type="submit" class="newsletter_button trans_200"><span>Send</span></button>
+                                <button type="submit" class="newsletter_button trans_200"><span>@lang('product.subscribe')</span></button>
                             </form>
                         </div>
                     @endif
@@ -124,7 +124,7 @@
                     <div class="reviews_title"><a href="#">Reviews <span>(1)</span></a></div>
                 </div>
                 <div class="description_text">
-                    <p>{!!$item->description!!}</p>
+                    <p>{!!$item->__('description')!!}</p>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
-<p>Уважаемый {{ $name }}</p>
+<p>@lang('mail.order_created.dear') {{ $name }}</p>
 
-<p>Ваш заказ на сумму {{ $fullSum }} $ создан</p>
+<p>@lang('mail.order_created.your_order') {{ $fullSum }} @lang('main.rub'). @lang('mail.order_created.created')</p>
 
 <table>
     <tbody>
@@ -9,12 +9,12 @@
             <td>
                 <a href="{{ route('showProduct', [$product->category['title'], $product->id]) }}">
                     <img height="56px" src="{{ $product->getImage() }}">
-                    {{ $product->title }}
+                    {{ $product->__('title') }}
                 </a>
             </td>
             <td><span class="badge">{{ $product->pivot->count }}</span></td>
-            <td>{{ $product->price }} $.</td>
-            <td>{{ $product->getPriceForCount() }} $.</td>
+            <td>{{ $product->price }} @lang('main.rub').</td>
+            <td>{{ $product->getPriceForCount() }} @lang('main.rub').</td>
         </tr>
     @endforeach
     </tbody>
