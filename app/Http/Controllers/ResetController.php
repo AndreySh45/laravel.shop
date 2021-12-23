@@ -16,7 +16,6 @@ class ResetController extends Controller
         Artisan::call('permission:create-role admin');
         Artisan::call('db:seed');
 
-
         foreach (['categories', 'products'] as $folder) {
             Storage::deleteDirectory($folder);
             Storage::makeDirectory($folder);
@@ -29,6 +28,7 @@ class ResetController extends Controller
         }
 
         session()->flash('success', __('main.project_reset'));
+
         return redirect()->route('index');
     }
 }

@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <!-- Price -->
-                    <div class="cart_item_price">{{$product->price}} @lang('main.rub').</div>
+                    <div class="cart_item_price">{{$product->price}} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</div>
                     <!-- Quantity -->
                     <div class="cart_item_quantity">
                         <div class="product_quantity_container">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <!-- Total -->
-                    <div class="cart_item_total">{{ $product->getPriceForCount() }} @lang('main.rub').</div>
+                    <div class="cart_item_total">{{ $product->getPriceForCount() }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</div>
                 </div>
                 @endforeach
             </div>
@@ -155,7 +155,7 @@
                         <ul>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">@lang('cart.subtotal')</div>
-                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} @lang('main.rub').</div>
+                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</div>
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">@lang('cart.shipping')</div>
@@ -163,7 +163,7 @@
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">Total</div>
-                                <div class="cart_total_value ml-auto">$790.90</div>
+                                <div class="cart_total_value ml-auto">{{ App\Services\CurrencyConversion::getCurrencySymbol() }} 790.90</div>
                             </li>
                         </ul>
                     </div>

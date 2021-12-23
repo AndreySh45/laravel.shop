@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Requests\ProductsFilterRequest;
@@ -60,6 +61,15 @@ class HomeController extends Controller
         }
         session(['locale' => $locale]);
         App::setLocale($locale);
+
+        return redirect()->back();
+    }
+
+    public function changeCurrency($currencyCode)
+    {
+        $currency = Currency::byCode($currencyCode)->firstOrFail(); // Переключение валюты получаем значение code из таблицы
+        session(['currency' => $currency->code]); // Записываем значение code в сессию
+
         return redirect()->back();
     }
 

@@ -53,17 +53,16 @@
                                     <li><a href="contact.html">@lang('main.contact')</a></li>
 								</ul>
 							</nav>
-                            <div class="header_extra ml-auto">
+                            <div class="header_extra ml-auto d-flex flex-row align-items-center">
                                 @guest
-                                    <a href="{{route('login')}}">@lang('main.login')</a>
+                                <a href="{{route('login')}}">@lang('main.login')</a>
                                 @else
-                                    <div class="container d-flex flex-row align-items-center">
                                     @if (Auth::user()->hasRole('admin'))
-                                        <a href="{{route('homeAdmin')}}">Administrator</a>
+										<a href="{{route('homeAdmin')}}">Administrator</a>
                                     @else
-                                        <a href="#">{{ Auth::user()->name }}</a>
+										<a href="#">{{ Auth::user()->name }}</a>
                                     @endif
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="ml-2" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
                                                 @lang('main.logout')
@@ -71,9 +70,16 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                     </form>
-                                    </div>
                                 @endguest
-                                <a href="{{route('locale', __('main.set_lang'))}}">@lang('main.current_lang')</a>
+                                <a href="{{route('locale', __('main.set_lang'))}}" class="ml-2">@lang('main.current_lang')</a>
+                                <div class="dropdown ml-2">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{App\Services\CurrencyConversion::getCurrencySymbol()}}<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        @foreach (App\Services\CurrencyConversion::getCurrencies() as $currency)
+                                            <li><a href="{{ route('currency', $currency->code) }}"" class="ml-2">{{ $currency->symbol }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
 							<div class="header_extra ml-auto">
 								<div class="shopping_cart">

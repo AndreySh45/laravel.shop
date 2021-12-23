@@ -126,10 +126,10 @@
                                 <div class="product_content">
                                     <div class="product_title"><a href="{{route('showProduct', [isset($cat) ? $cat->slug : $product->category['title'], $product->id])}}">{{$product->title}}</a></div>
                                     @if($product->new_price != null)
-                                        <div style="text-decoration: line-through">${{$product->price}}</div>
-                                        <div class="product_price">${{$product->new_price}}</div>
+                                        <div style="text-decoration: line-through">{{ App\Services\CurrencyConversion::getCurrencySymbol() }}{{$product->price}}</div>
+                                        <div class="product_price">{{ App\Services\CurrencyConversion::getCurrencySymbol() }}{{$product->new_price}}</div>
                                     @else
-                                        <div class="product_price">${{$product->price}}</div>
+                                        <div class="product_price">{{ App\Services\CurrencyConversion::getCurrencySymbol() }}{{$product->price}}</div>
                                     @endif
                                 </div>
                             </div>

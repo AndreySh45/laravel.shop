@@ -22,6 +22,7 @@ use App\Http\Controllers\ProductController;
 Auth::routes();
 Route::get('/spa/{any}', [SpaController::class, 'index'])->where('any', '.*');
 Route::get('locale/{locale}', [HomeController::class, 'changeLocale'])->name('locale');
+Route::get('currency/{currencyCode}', [HomeController::class, 'changeCurrency'])->name('currency');
 Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
 
 Route::middleware(['set_locale'])->group(function () {
