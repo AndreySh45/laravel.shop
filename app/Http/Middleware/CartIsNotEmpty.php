@@ -17,12 +17,15 @@ class CartIsNotEmpty
      */
     public function handle(Request $request, Closure $next)
     {
-        $orderId = session('orderId');
-        if (!is_null($orderId) && Order::getFullSum() > 0) {
+        $order = session('order');
+
+        if (!is_null($order) && $order->getFullSum() > 0) {
             return $next($request);
         }
 
+        session()->forget('order');
         session()->flash('warning', __('cart.cart_is_empty'));
+
         return redirect()->route('index');
 
     }

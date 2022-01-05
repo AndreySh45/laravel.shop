@@ -51,7 +51,7 @@
 
         <div class="row cart_items_row">
             <div class="col">
-                @foreach($products as $product)
+                @foreach($order->products as $product)
                 <!-- Cart Item -->
                 <div class="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
                     <!-- Name -->
@@ -74,7 +74,7 @@
                     <div class="cart_item_quantity">
                         <div class="product_quantity_container">
                             <div class="product_quantity clearfix">
-                                <span class="badge">{{$product->pivot->count}}</span>
+                                <span class="badge">{{$product->countInOrder}}</span>
                                 {{-- <input id="quantity_input" type="text" value="{{$product->count->count}}"> --}}
                                 <div class="quantity_buttons">
                                     <form action="{{ route('cartRemove', $product) }}" method="POST">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <!-- Total -->
-                    <div class="cart_item_total">{{ $product->getPriceForCount() }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</div>
+                    <div class="cart_item_total">{{ $product->price * $product->countInOrder }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</div>
                 </div>
                 @endforeach
             </div>
@@ -163,7 +163,7 @@
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">Total</div>
-                                <div class="cart_total_value ml-auto">{{ App\Services\CurrencyConversion::getCurrencySymbol() }} 790.90</div>
+                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}</div>
                             </li>
                         </ul>
                     </div>

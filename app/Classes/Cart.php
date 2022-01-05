@@ -5,6 +5,7 @@ namespace App\Classes;
 use App\Models\Order;
 use App\Models\Product;
 use App\Mail\OrderCreated;
+use App\Services\CurrencyConversion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -19,18 +20,19 @@ class Cart
      */
     public function __construct($createOrder = false)
     {
-        $orderId = session('orderId');
+        $order = session('order');
 
-        if (is_null($orderId) && $createOrder) {
+        if (is_null($order) && $createOrder) {
             $data = [];
             if (Auth::check()) { //Если пользователь авторизован
                 $data['user_id'] = Auth::id();  //В поле user_id записываем ID пользователя
             }
+            $data['currency_id'] = CurrencyConversion::getCurrentCurrencyFromSession()->id;
 
-            $this->order = Order::create($data);
-            session(['orderId' => $this->order->id]);
+            $this->order = new Order($data);
+            session(['order' => $this->order]);
         } else {
-            $this->order = Order::findOrFail($orderId);
+            $this->order = $order;
         }
     }
 
@@ -44,17 +46,22 @@ class Cart
 
     public function countAvailable($updateCount = false)
     {
+        $products = collect([]);
         foreach ($this->order->products as $orderProduct)
         {
-            if ($orderProduct->count < $this->getPivotRow($orderProduct)->count) {
+            $product = Product::find($orderProduct->id);
+            if ($orderProduct->countInOrder > $product->count) {
                 return false;
             }
+
             if ($updateCount) {
-                $orderProduct->count -= $this->getPivotRow($orderProduct)->count;
+                $product->count -= $orderProduct->countInOrder;
+                $products->push($product);
             }
         }
+
         if ($updateCount) {
-            $this->order->products->map->save();
+            $products->map->save();
         }
 
         return true;
@@ -65,49 +72,41 @@ class Cart
         if (!$this->countAvailable(true)) {
             return false;
         }
-
+        $this->order->saveOrder($name, $phone);
         Mail::to($email)->send(new OrderCreated($name, $this->getOrder()));
 
-        return $this->order->saveOrder($name, $phone);
+        return true;
     }
 
-    protected function getPivotRow($product)
-    {
-        return $this->order->products()->where('product_id', $product->id)->first()->pivot; //Находим поле count
-    }
 
     public function removeProduct(Product $product)
     {
-        if ($this->order->products->contains($product->id)) {
-            $pivotRow = $this->getPivotRow($product); //Находим поле count
-            if ($pivotRow->count < 2) {
-                $this->order->products()->detach($product->id); //Если товар в одном экземпляре удаляем его из корзины
+        if ($this->order->products->contains($product)) {
+            $pivotRow = $this->order->products->where('id', $product->id)->first(); //Находим сведения о товаре
+            if ($pivotRow->countInOrder < 2) {
+                $this->order->products->pop($product); //Если товар в одном экземпляре удаляем его из корзины
             } else {
-                $pivotRow->count--; //Уменьшаем на один
-                $pivotRow->update();
+                $pivotRow->countInOrder--; //Уменьшаем на один
             }
         }
 
-        Order::changeFullSum(-$product->price);
     }
 
     public function addProduct(Product $product)
     {
-        if ($this->order->products->contains($product->id)) { //Проверка есть ли такой продукт в корзине?
-            $pivotRow = $this->getPivotRow($product); //Находим поле count
-            $pivotRow->count++; //Увеличиваем на один
-            if ($pivotRow->count > $product->count) { //проверка можно ли добавить товар
+        if ($this->order->products->contains($product)) { //Проверка есть ли такой продукт в корзине?
+            $pivotRow = $this->order->products->where('id', $product->id)->first(); //Находим сведения о товаре
+            if ($pivotRow->countInOrder >= $product->count) { //проверка можно ли добавить товар
                 return false;
             }
-            $pivotRow->update();
+            $pivotRow->countInOrder++; //Увеличиваем на один
         } else {
             if ($product->count == 0) {
                 return false;
             }
-            $this->order->products()->attach($product->id); // Если такого товара нет, то добавляем его в корзину
+            $product->countInOrder =1;
+            $this->order->products->push($product); // Если такого товара нет, то добавляем его в корзину
         }
-
-        Order::changeFullSum($product->price);
 
         return true;
     }

@@ -57,7 +57,7 @@
                                         {{ $order->created_at->format('H:i d/m/Y') }}
                                     </td>
                                     <td>
-                                        {{ $order->calculateFullSum() }} руб.
+                                        {{ $order->sum }} {{ $order->currency->symbol }}.
                                     </td>
                                     <td class="project-actions text-right">
                                         <a class="btn btn-info btn-sm" href="{{ route('orders.show', $order) }}">

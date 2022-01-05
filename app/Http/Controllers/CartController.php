@@ -26,8 +26,6 @@ class CartController extends Controller
             session()->flash('warning', __('cart.you_cant_order_more'));
         }
 
-        Order::eraseOrderSum();
-
         return redirect()->route('index');
     }
 

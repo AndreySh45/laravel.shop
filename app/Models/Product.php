@@ -42,8 +42,8 @@ class Product extends Model
     }
 
     public function getPriceForCount() {
-        if (!is_null($this->count)) {
-            return $this->pivot->count * $this->price;
+        if (!is_null($this->countInOrder)) {
+            return $this->countInOrder * $this->price;
         }
         return $this->price;
     }

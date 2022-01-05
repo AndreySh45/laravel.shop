@@ -21,6 +21,23 @@ class CurrencyConversion
         }
     }
 
+    public static function getCurrencyFromSession()
+    {
+        return session('currency', self::DEFAULT_CURRENCY_CODE);
+    }
+
+    public static function getCurrentCurrencyFromSession()
+    {
+        self::loadContainer();
+        $currencyCode = self::getCurrencyFromSession();
+
+        foreach (self::$container as $currency) {
+            if ($currency->code === $currencyCode) {
+                return $currency;
+            }
+        }
+    }
+
     public static function getCurrencies()
     {
         self::loadContainer();
@@ -40,7 +57,7 @@ class CurrencyConversion
             }
         }
         if (is_null($targetCurrencyCode)) {
-            $targetCurrencyCode = session('currency', 'RUB');
+            $targetCurrencyCode = self::getCurrencyFromSession();
         }
         $targetCurrency = self::$container[$targetCurrencyCode];
         if ($targetCurrency->rate == 0 || $targetCurrency->updated_at->startOfDay() != Carbon::now()->startOfDay()) {
@@ -56,7 +73,7 @@ class CurrencyConversion
     {
         self::loadContainer();
 
-        $currencyFromSession = session('currency', 'RUB');
+        $currencyFromSession = self::getCurrencyFromSession();
 
         $currency = self::$container[$currencyFromSession];
 
