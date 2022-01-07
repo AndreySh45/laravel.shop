@@ -62,10 +62,10 @@
                 <div class="details_content">
                     <div class="details_name" data-id="{{$item->id}}">{{$item->__('title')}}</div>
                     @if($item->new_price != null)
-                        <div class="details_discount">{{ App\Services\CurrencyConversion::getCurrencySymbol() }}{{$item->price}}</div>
-                        <div class="details_price">{{ App\Services\CurrencyConversion::getCurrencySymbol() }}{{$item->new_price}}</div>
+                        <div class="details_discount">{{ $currencySymbol }}{{$item->price}}</div>
+                        <div class="details_price">{{ $currencySymbol }}{{$item->new_price}}</div>
                     @else
-                        <div class="product_price">{{ App\Services\CurrencyConversion::getCurrencySymbol() }}{{$item->price}}</div>
+                        <div class="product_price">{{ $currencySymbol }}{{$item->price}}</div>
                     @endif
                     <!-- Labels -->
                     <div class="in_stock_container">

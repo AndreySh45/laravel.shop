@@ -31,8 +31,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-        $categories = Category::orderBy('id')->get();
-        View::share(compact('categories'));
         Blade::directive('routeactive', function ($route) {
             return "<?php echo Route::currentRouteNamed($route) ? 'class=\"hassubs active\"' : 'class=\"hassubs\"' ?>";
         });

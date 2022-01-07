@@ -13,8 +13,8 @@
                 </a>
             </td>
             <td><span class="badge">{{ $product->countInOrder }}</span></td>
-            <td>{{ $product->price }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</td>
-            <td>{{ $product->getPriceForCount() }} {{ App\Services\CurrencyConversion::getCurrencySymbol() }}.</td>
+            <td>{{ $product->price }} {{ $currencySymbol }}.</td>
+            <td>{{ $product->getPriceForCount() }} {{ $currencySymbol }}.</td>
         </tr>
     @endforeach
     </tbody>

@@ -31,4 +31,5 @@ return [
     'not_available' => 'Not available',
     'project_reset' => 'The Project was reset',
     'contact' => 'Contact',
+    'pop_products' => 'Most popular Products',
 ];

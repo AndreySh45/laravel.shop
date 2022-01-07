@@ -1163,6 +1163,12 @@ section
 {
 	background: #e0cb0b;
 }
+.products_title
+{
+	font-size: 30px;
+	font-weight: 500;
+	color: #1b1b1b;
+}
 
 /*********************************
 8. Ad Extra Large

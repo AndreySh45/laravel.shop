@@ -73,9 +73,9 @@
                                 @endguest
                                 <a href="{{route('locale', __('main.set_lang'))}}" class="ml-2">@lang('main.current_lang')</a>
                                 <div class="dropdown ml-2">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{App\Services\CurrencyConversion::getCurrencySymbol()}}<span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$currencySymbol}}<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        @foreach (App\Services\CurrencyConversion::getCurrencies() as $currency)
+                                        @foreach ($currencies as $currency)
                                             <li><a href="{{ route('currency', $currency->code) }}"" class="ml-2">{{ $currency->symbol }}</a></li>
                                         @endforeach
                                     </ul>
