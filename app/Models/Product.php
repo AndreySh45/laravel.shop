@@ -32,6 +32,18 @@ class Product extends Model
     public function category(){
         return $this->belongsTo('App\Models\Category');
     }
+
+    public function skus()
+    {
+        return $this->hasMany(Sku::class);
+    }
+
+    //TODO: check table name and fields
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class);
+    }
+
     public function getImage()
     {
         $img = $this->images[0]['img'];
