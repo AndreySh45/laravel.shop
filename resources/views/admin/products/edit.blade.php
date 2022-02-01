@@ -34,12 +34,21 @@
                                     value="{{ old('title_en', isset($product) ? $product->title_en : null) }}" placeholder="Введите английское название товара" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Цена товара</label>
-                                    <input type="text" value="{{ $product->price }}" name="price" class="form-control @error('price') is-invalid @enderror" id="exampleInputEmail1" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Количество товара</label>
-                                    <input type="text" value="{{ $product->count }}" name="count" class="form-control @error('count') is-invalid @enderror" id="exampleInputEmail1" required>
+                                    <!-- select -->
+                                        <div class="form-group">
+                                          <label>Свойства товара</label>
+                                            <select name="property_id[]" class="form-control" multiple>
+                                                @foreach ($properties as $property)
+                                                    <option value="{{ $property->id }}"
+                                                        @isset($product)
+                                                            @if($product->properties->contains($property->id))
+                                                            selected
+                                                            @endif
+                                                        @endisset>
+                                                        {{$property->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                 </div>
                                 <div class="form-inline">
                                     <div class="form-check mb-2 mr-sm-2">

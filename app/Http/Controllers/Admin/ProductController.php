@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
@@ -18,7 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->get();
+        $products = Product::orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.products.index', compact('products'));
     }
@@ -31,8 +32,9 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::orderBy('created_at', 'DESC')->get();
+        $properties = Property::get();
 
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create', compact('categories', 'properties'));
     }
 
     /**
@@ -71,8 +73,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::orderBy('created_at', 'DESC')->get();
+        $properties = Property::get();
 
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product', 'categories', 'properties'));
     }
 
     /**
@@ -92,6 +95,7 @@ class ProductController extends Controller
                 $data[$fieldName] = 0;
             }
         }
+        $product->properties()->sync($request->property_id);
         $product->update($data);
         if ($request->hasFile('img')) {
             $product->images()->update(['product_id' => $product->id, 'img' => $request->img]);

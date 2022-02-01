@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -13,8 +14,9 @@ class MainController extends Controller
     public function index(){
         $products_count = Product::all()->count();
         $categories_count = Category::all()->count();
+        $users_count = User::all()->count();
         $orders_count = Order::where('status', 1)->count();
 
-        return view('admin.home.index', compact('products_count', 'categories_count', 'orders_count'));
+        return view('admin.home.index', compact('products_count', 'categories_count', 'orders_count', 'users_count'));
     }
 }

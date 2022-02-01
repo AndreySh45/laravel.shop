@@ -66,6 +66,9 @@
 
                         </tbody>
                     </table>
+                <div class="col-md-12 mb-3">
+                    {{ $categories->links() }}
+                </div>
                 @else
                     <p>Категорий пока нет...</p>
                 @endif

@@ -46,7 +46,10 @@ Route::middleware(['set_locale'])->group(function () {
         Route::get('/', 'MainController@index')->name('homeAdmin'); // /admin
         Route::resource('categories', 'CategoryController');
         Route::resource('products', 'ProductController');
+        Route::resource('products/{product}/skus', 'SkuController');
         Route::resource('orders', 'OrderController');
+        Route::resource('properties', 'PropertyController');
+        Route::resource('properties/{property}/property-options', 'PropertyOptionController');
     });
     Route::get('/home', [HomeController::class, 'user'])->name('home');
 });

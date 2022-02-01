@@ -43,7 +43,7 @@ class HomeController extends Controller
             }
         }
 
-        $products = $productsQuery->orderBy('price', 'desc')->paginate(3)->withQueryString();
+        $products = $productsQuery->orderBy('price', 'desc')->paginate(4)->withQueryString();
 
         return view('home.index', compact('products'));
     }

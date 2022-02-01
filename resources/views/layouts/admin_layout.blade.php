@@ -120,6 +120,28 @@
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-list-alt"></i>
+                    <p>
+                        Свойства товара
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('properties.index')}}" class="nav-link">
+                            <p>Все свойства</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('properties.create')}}" class="nav-link">
+                            <p>Добавить свойство</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-calculator"></i>
                     <p>
                         Заказы
