@@ -148,7 +148,7 @@
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="order_list_title">Subtotal</div>
-                                <div class="order_list_value ml-auto">{{ $order->sum }} {{ $order->currency->symbol }}.</div>
+                                <div class="order_list_value ml-auto">{{ $order->getFullSum() }} {{ $currencySymbol }}.</div>
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="order_list_title">Shipping</div>

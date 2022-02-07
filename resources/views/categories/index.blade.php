@@ -84,7 +84,7 @@
 
 					<!-- Product Sorting -->
 					<div class="sorting_bar d-flex flex-md-row flex-column align-items-md-center justify-content-md-start">
-						<div class="results">Showing <span>{{$cat->products->count()}}</span> results</div>
+						<div class="results">Showing <span>{{$cat->products->map->skus->count()}}</span> results</div>
 						<div class="sorting_container ml-md-auto">
 							<div class="sorting">
 								<ul class="item_sorting">
@@ -109,7 +109,7 @@
 				<div class="col">
 
 					<div class="product_grid">
-                        @foreach ($products as  $product)
+                        @foreach ($category->products->map->skus->flatten() as  $sku)
                             <!-- Product -->
                             @php
                                 //$image = $product->getImage();
@@ -121,15 +121,15 @@
                                 } */
                             @endphp
                             <div class="product">
-                                <div class="product_image"><img src="{{$product->getImage()}}" alt="{{$product->title}}"></div>
+                                <div class="product_image"><img src="{{$sku->product->getImage()}}" alt="{{$sku->product->title}}"></div>
                                 <div class="product_extra product_sale"><a href="{{route('showCategory', isset($cat) ? $cat->slug : $product->category['title'])}}">{{$cat->title}}</a></div>
                                 <div class="product_content">
                                     <div class="product_title"><a href="{{route('showProduct', [isset($cat) ? $cat->slug : $product->category['title'], $product->id])}}">{{$product->title}}</a></div>
                                     @if($product->new_price != null)
-                                        <div style="text-decoration: line-through">{{ $currencySymbol }}{{$product->price}}</div>
-                                        <div class="product_price">{{ $currencySymbol }}{{$product->new_price}}</div>
+                                        <div style="text-decoration: line-through">{{ $currencySymbol }}{{$sku->price}}</div>
+                                        <div class="product_price">{{ $currencySymbol }}{{$sku->new_price}}</div>
                                     @else
-                                        <div class="product_price">{{ $currencySymbol }}{{$product->price}}</div>
+                                        <div class="product_price">{{ $currencySymbol }}{{$sku->price}}</div>
                                     @endif
                                 </div>
                             </div>

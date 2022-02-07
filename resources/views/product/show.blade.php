@@ -14,14 +14,14 @@
 
 <div class="home">
     <div class="home_container">
-        <div class="home_background" style="background-image:url('/uploads/{{$item->category->img}}')"></div>
+        <div class="home_background" style="background-image:url('/uploads/{{$sku->product->category->img}}')"></div>
         <div class="home_content_container">
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <div class="home_content">
-                            <div class="home_title">{{$item->category->__('title')}}<span>.</span></div>
-                            <div class="home_text"><p>{{$item->category->__('desc')}}</p></div>
+                            <div class="home_title">{{$sku->product->category->__('title')}}<span>.</span></div>
+                            <div class="home_text"><p>{{$sku->product->category->__('desc')}}</p></div>
                         </div>
                     </div>
                 </div>
@@ -40,16 +40,16 @@
             <div class="col-lg-6">
                 <div class="details_image">
 
-                    <div class="details_image_large"><img src="{{ $item->getImage()}}" alt=""></div>
+                    <div class="details_image_large"><img src="{{ $sku->product->getImage()}}" alt=""></div>
                     <div class="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
-                        @if($item->getImage() == 'no_image.png')
+                        @if($sku->product->getImage() == 'no_image.png')
 
                         @else
-                            @foreach($item->images as $img)
+                            @foreach($sku->product->images as $img)
                                 @if($loop->first)
-                                    <div class="details_image_thumbnail active" data-image="{{$img['img']}}"><img src="{{$img['img']}}" alt="{{$item->title}}"></div>
+                                    <div class="details_image_thumbnail active" data-image="{{$img['img']}}"><img src="{{$img['img']}}" alt="{{$sku->product->title}}"></div>
                                 @else
-                                    <div class="details_image_thumbnail" data-image="{{$img['img']}}"><img src="{{$img['img']}}" alt="{{$item->title}}"></div>
+                                    <div class="details_image_thumbnail" data-image="{{$img['img']}}"><img src="{{$img['img']}}" alt="{{$sku->product->title}}"></div>
                                 @endif
                             @endforeach
                         @endif
@@ -60,32 +60,37 @@
             <!-- Product Content -->
             <div class="col-lg-6">
                 <div class="details_content">
-                    <div class="details_name" data-id="{{$item->id}}">{{$item->__('title')}}</div>
-                    @if($item->new_price != null)
-                        <div class="details_discount">{{ $currencySymbol }}{{$item->price}}</div>
-                        <div class="details_price">{{ $currencySymbol }}{{$item->new_price}}</div>
+                    <div class="details_name" data-id="{{$sku->product->id}}">{{$sku->product->__('title')}}</div>
+                    @if($sku->product->new_price != null)
+                        <div class="details_discount">{{ $currencySymbol }}{{$sku->price}}</div>
+                        <div class="details_price">{{ $currencySymbol }}{{$sku->product->new_price}}</div>
                     @else
-                        <div class="product_price">{{ $currencySymbol }}{{$item->price}}</div>
+                        <div class="product_price">{{ $currencySymbol }}{{$sku->price}}</div>
                     @endif
                     <!-- Labels -->
                     <div class="in_stock_container">
                         <div class="availability">Labels:</div>
-                        @if($item->isNew())
+                        @if($sku->product->isNew())
                             <span style="color: #4519f5">@lang('main.properties.new')</span>
                         @endif
-                        @if($item->isRecommend())
+                        @if($sku->product->isRecommend())
                             <span style="color: #e0cb0b">@lang('main.properties.recommend')</span>
                         @endif
-                        @if($item->isHit())
+                        @if($sku->product->isHit())
                             <span style="color: #e95a5a">@lang('main.properties.hit')</span>
                         @endif
                     </div>
+                    @isset($sku->product->properties)
+                        @foreach ($sku->propertyOptions as $propertyOption)
+                            <h4>{{ $propertyOption->property->__('name') }}: {{ $propertyOption->__('name') }}</h4>
+                        @endforeach
+                    @endisset
                     <div class="details_text">
-                        <p>{!!$item->__('description')!!}</p>
+                        <p>{!!$sku->product->__('description')!!}</p>
                     </div>
 
-                    @if($item->isAvailable())
-                        <form action="{{ route('cartAdd', $item) }}" method="POST">
+                    @if($sku->isAvailable())
+                        <form action="{{ route('cartAdd', $sku) }}" method="POST">
                             @csrf
                             <button type="submit" class="newsletter_button trans_200"><span>@lang('product.add_to_cart')</span></button>
                         </form>
@@ -94,7 +99,7 @@
                             <span style="color: #cc0000">@lang('main.not_available')</span>
                             <br>
                             <span style="color: #4519f5">@lang('product.tell_me')</span>
-                            <form method="POST" action="{{ route('subscription', $item) }}">
+                            <form method="POST" action="{{ route('subscription', $sku) }}">
                                 @csrf
                                 <input type="email" class="contact_email" name="email" placeholder="Email">
                                 <button type="submit" class="newsletter_button trans_200"><span>@lang('product.subscribe')</span></button>
@@ -124,7 +129,7 @@
                     <div class="reviews_title"><a href="#">Reviews <span>(1)</span></a></div>
                 </div>
                 <div class="description_text">
-                    <p>{!!$item->__('description')!!}</p>
+                    <p>{!!$sku->product->__('description')!!}</p>
                 </div>
             </div>
         </div>

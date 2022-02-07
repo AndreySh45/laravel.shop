@@ -11,22 +11,22 @@
             <div class="col">
 
                 <div class="product_grid">
-                    @foreach ($bestProducts as $bestProduct)
+                    @foreach ($bestSkus as $bestSku)
                     <!-- Product -->
                     <div class="product">
-                        <div class="product_image"><img src="{{ $bestProduct->getImage()}}" alt=""></div>
-                        @if($bestProduct->isNew())
-                            <div class="product_extra product_new"><a href="{{route('showCategory', $bestProduct->category['title'])}}">@lang('main.properties.new')</a></div>
+                        <div class="product_image"><img src="{{ $bestSku->product->getImage()}}" alt=""></div>
+                        @if($bestSku->product->isNew())
+                            <div class="product_extra product_new"><a href="{{route('showCategory', $bestSku->product->category['title'])}}">@lang('main.properties.new')</a></div>
                         @endif
-                        @if($bestProduct->isRecommend())
-                            <div class="product_extra product_hot"><a href="{{route('showCategory', $bestProduct->category['title'])}}">@lang('main.properties.recommend')</a></div>
+                        @if($bestSku->product->isRecommend())
+                            <div class="product_extra product_hot"><a href="{{route('showCategory', $bestSku->product->category['title'])}}">@lang('main.properties.recommend')</a></div>
                         @endif
-                        @if($bestProduct->isHit())
-                            <div class="product_extra product_sale"><a href="{{route('showCategory', $bestProduct->category['title'])}}">@lang('main.properties.hit')</a></div>
+                        @if($bestSku->product->isHit())
+                            <div class="product_extra product_sale"><a href="{{route('showCategory', $bestSku->product->category['title'])}}">@lang('main.properties.hit')</a></div>
                         @endif
                         <div class="product_content">
-                            <div class="product_title"><a href="{{route('showProduct', [$bestProduct->category['title'], $bestProduct->id])}}">{{$bestProduct->__('title')}}</a></div>
-                            <div class="product_price">{{ $currencySymbol }}{{$bestProduct->price}}</div>
+                            <div class="product_title"><a href="{{ route('sku', [$bestSku->product->category->slug, $bestSku->product->id, $bestSku->id]) }}">{{$bestSku->product->__('title')}}</a></div>
+                            <div class="product_price">{{ $currencySymbol }}{{$bestSku->price}}</div>
                         </div>
                     </div>
                     @endforeach

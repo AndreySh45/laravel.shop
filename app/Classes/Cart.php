@@ -3,8 +3,8 @@
 namespace App\Classes;
 
 use App\Models\Order;
-use App\Models\Product;
 use App\Mail\OrderCreated;
+use App\Models\Sku;
 use App\Services\CurrencyConversion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +15,7 @@ class Cart
 
 
     /**
-     * Basket constructor.
+     * Cart constructor.
      * @param  bool  $createOrder
      */
     public function __construct($createOrder = false)
@@ -46,22 +46,22 @@ class Cart
 
     public function countAvailable($updateCount = false)
     {
-        $products = collect([]);
-        foreach ($this->order->products as $orderProduct)
+        $skus = collect([]);
+        foreach ($this->order->skus as $orderSku)
         {
-            $product = Product::find($orderProduct->id);
-            if ($orderProduct->countInOrder > $product->count) {
+            $sku = Sku::find($orderSku->id);
+            if ($orderSku->countInOrder > $sku->count) {
                 return false;
             }
 
             if ($updateCount) {
-                $product->count -= $orderProduct->countInOrder;
-                $products->push($product);
+                $sku->count -= $orderSku->countInOrder;
+                $skus->push($sku);
             }
         }
 
         if ($updateCount) {
-            $products->map->save();
+            $skus->map->save();
         }
 
         return true;
@@ -79,12 +79,12 @@ class Cart
     }
 
 
-    public function removeProduct(Product $product)
+    public function removeSku(Sku $sku)
     {
-        if ($this->order->products->contains($product)) {
-            $pivotRow = $this->order->products->where('id', $product->id)->first(); //Находим сведения о товаре
+        if ($this->order->skus->contains($sku)) {
+            $pivotRow = $this->order->skus->where('id', $sku->id)->first(); //Находим сведения о товаре
             if ($pivotRow->countInOrder < 2) {
-                $this->order->products->pop($product); //Если товар в одном экземпляре удаляем его из корзины
+                $this->order->skus->pop($sku); //Если товар в одном экземпляре удаляем его из корзины
             } else {
                 $pivotRow->countInOrder--; //Уменьшаем на один
             }
@@ -92,20 +92,20 @@ class Cart
 
     }
 
-    public function addProduct(Product $product)
+    public function addSku(Sku $sku)
     {
-        if ($this->order->products->contains($product)) { //Проверка есть ли такой продукт в корзине?
-            $pivotRow = $this->order->products->where('id', $product->id)->first(); //Находим сведения о товаре
-            if ($pivotRow->countInOrder >= $product->count) { //проверка можно ли добавить товар
+        if ($this->order->skus->contains($sku)) { //Проверка есть ли такой продукт в корзине?
+            $pivotRow = $this->order->skus->where('id', $sku->id)->first(); //Находим сведения о товаре
+            if ($pivotRow->countInOrder >= $sku->count) { //проверка можно ли добавить товар
                 return false;
             }
             $pivotRow->countInOrder++; //Увеличиваем на один
         } else {
-            if ($product->count == 0) {
+            if ($sku->count == 0) {
                 return false;
             }
-            $product->countInOrder =1;
-            $this->order->products->push($product); // Если такого товара нет, то добавляем его в корзину
+            $sku->countInOrder = 1;
+            $this->order->skus->push($sku); // Если такого товара нет, то добавляем его в корзину
         }
 
         return true;

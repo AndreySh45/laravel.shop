@@ -164,34 +164,39 @@
             <div class="col">
 
                 <div class="product_grid">
-                    @foreach ($products as  $product)
+                    @foreach ($skus as  $sku)
                             <!-- Product -->
 
                             <div class="product">
-                                <div class="product_image"><img src="{{ $product->getImage()}}" alt="{{$product->title}}"></div>
+                                <div class="product_image"><img src="{{ $sku->product->getImage()}}" alt="{{$sku->product->title}}"></div>
                                 <div class="product_extra">
-                                    @if($product->isNew())
-                                        <div class="product_new"><a href="{{route('showCategory', $product->category['title'])}}">@lang('main.properties.new')</a></div>
+                                    @if($sku->product->isNew())
+                                        <div class="product_new"><a href="{{route('showCategory', $sku->product->category['title'])}}">@lang('main.properties.new')</a></div>
                                     @endif
-                                    @if($product->isRecommend())
-                                        <div class="product_hot"><a href="{{route('showCategory', $product->category['title'])}}">@lang('main.properties.recommend')</a></div>
+                                    @if($sku->product->isRecommend())
+                                        <div class="product_hot"><a href="{{route('showCategory', $sku->product->category['title'])}}">@lang('main.properties.recommend')</a></div>
                                     @endif
-                                    @if($product->isHit())
-                                        <div class="product_sale"><a href="{{route('showCategory', $product->category['title'])}}">@lang('main.properties.hit')</a></div>
+                                    @if($sku->product->isHit())
+                                        <div class="product_sale"><a href="{{route('showCategory', $sku->product->category['title'])}}">@lang('main.properties.hit')</a></div>
                                     @endif
                                 </div>
                                 <div class="product_content">
-                                    <div class="product_title"><a href="{{route('showProduct', [$product->category['title'], $product->id])}}">{{$product->__('title')}}</a></div>
-                                    @if($product->new_price != null)
-                                        <div style="text-decoration: line-through">{{ $currencySymbol }}{{$product->price}}</div>
-                                        <div class="product_price">{{ $currencySymbol }}{{$product->new_price}}</div>
+                                    <div class="product_title"><a href="{{ route('sku', [$sku->product->category->slug, $sku->product->id, $sku->id]) }}">{{$sku->product->__('title')}}</a></div>
+                                    @isset($sku->product->properties)
+                                        @foreach ($sku->propertyOptions as $propertyOption)
+                                            <h4>{{ $propertyOption->property->__('name') }}: {{ $propertyOption->__('name') }}</h4>
+                                        @endforeach
+                                    @endisset
+                                    @if($sku->product->new_price != null)
+                                        <div style="text-decoration: line-through">{{ $currencySymbol }}{{$sku->price}}</div>
+                                        <div class="product_price">{{ $currencySymbol }}{{$sku->product->new_price}}</div>  {{-- $sku->new_price --}}
                                     @else
-                                        <div class="product_price">{{ $currencySymbol }}{{$product->price}}</div>
+                                        <div class="product_price">{{ $currencySymbol }}{{$sku->price}}</div>
                                     @endif
                                 </div>
-                                <form action="{{ route('cartAdd', $product) }}" method="POST">
+                                <form action="{{ route('cartAdd', $sku) }}" method="POST">
                                     @csrf
-                                    @if($product->isAvailable())
+                                    @if($sku->isAvailable())
                                         <button type="submit" class="newsletter_button trans_200"><span>@lang('main.add_to_basket')</span></button>
                                     @else
                                         @lang('main.not_available')
@@ -203,7 +208,7 @@
             </div>
         </div>
         <div class="col-md-12 mb-3">
-            {{ $products->links() }}
+            {{ $skus->links() }}
         </div>
     </div>
 </div>

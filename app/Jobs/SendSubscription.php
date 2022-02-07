@@ -2,10 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Models\Product;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendSubscriptionMessage;
+use App\Models\Sku;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,7 +17,7 @@ class SendSubscription implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $product;
+    protected $sku;
     protected $subscription;
 
     /**
@@ -24,9 +25,9 @@ class SendSubscription implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Product $product, $subscription)
+    public function __construct(Sku $sku, $subscription)
     {
-        $this->product = $product;
+        $this->sku = $sku;
         $this->subscription = $subscription;
     }
 
@@ -37,6 +38,6 @@ class SendSubscription implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->subscription->email)->send(new SendSubscriptionMessage($this->product));
+        Mail::to($this->subscription->email)->send(new SendSubscriptionMessage($this->sku));
     }
 }

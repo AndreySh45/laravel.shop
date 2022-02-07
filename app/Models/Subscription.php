@@ -9,24 +9,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Subscription extends Model
 {
     use HasFactory;
-    protected $fillable = ['email', 'product_id'];
+    protected $fillable = ['email', 'sku_id'];
 
-    public function scopeActiveByProductId($query, $productId)
+    public function scopeActiveBySkuId($query, $skutId)
     {
-        return $query->where('status', 0)->where('product_id', $productId);
+        return $query->where('status', 0)->where('sku_id', $skutId);
     }
 
-    public function product()
+    public function sku()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Sku::class);
     }
 
-    public static function sendEmailsBySubscription(Product $product) //Вызывается при изменении количества товара
+    public static function sendEmailsBySubscription(Sku $sku) //Вызывается при изменении количества товара
     {
-        $subscriptions = self::activeByProductId($product->id)->get();
+        $subscriptions = self::activeBySkuId($sku->id)->get();
 
         foreach($subscriptions as $subscription) {
-            dispatch(new SendSubscription($product, $subscription))->delay(now()->addMinutes(2));
+            dispatch(new SendSubscription($sku, $subscription))->delay(now()->addMinutes(2));
             $subscription->status = 1;
             $subscription->save();
         }

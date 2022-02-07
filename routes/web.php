@@ -27,18 +27,18 @@ Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
 
 Route::middleware(['set_locale'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::post('subscription/{product}', [ProductController::class, 'subscribe'])->name('subscription');
-    Route::get('/catedory/{cat}/{product_id}', [ProductController::class, 'show'] )->name('showProduct');
+    Route::post('subscription/{sku}', [ProductController::class, 'subscribe'])->name('subscription');
+    Route::get('/catedory/{cat}/{product_id}/{sku}', [ProductController::class, 'sku'] )->name('sku');
     Route::get('/catedory/{cat}', [ProductController::class, 'showCategory'] )->name('showCategory');
     Route::group(['prefix' => 'cart'], function () {
-        Route::post('/add/{product}', [CartController::class, 'cartAdd'])->name('cartAdd');
+        Route::post('/add/{sku}', [CartController::class, 'cartAdd'])->name('cartAdd');
 
         Route::group([
             'middleware' => 'cart_not_empty',
         ], function () {
             Route::get('/', [CartController::class, 'index'])->name('cartIndex');
             Route::get('/place', [CartController::class, 'cartPlace'])->name('cartPlace');
-            Route::post('/remove/{product}', [CartController::class, 'cartRemove'])->name('cartRemove');
+            Route::post('/remove/{sku}', [CartController::class, 'cartRemove'])->name('cartRemove');
             Route::post('/place', [CartController::class, 'cartConfirm'])->name('cartConfirm');
         });
     });

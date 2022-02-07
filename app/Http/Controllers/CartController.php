@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sku;
 use App\Classes\Cart;
-use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,9 +11,8 @@ class CartController extends Controller
 {
     public function index() {
         $order = (new Cart())->getOrder();
-        $products = $order->products()->with('category')->get();
 
-        return view('cart.index', compact('order', 'products'));
+        return view('cart.index', compact('order'));
     }
 
     public function cartConfirm(Request $request)
@@ -41,22 +39,22 @@ class CartController extends Controller
         return view('order.index', compact('order'));
     }
 
-    public function cartAdd(Product $product) {
+    public function cartAdd(Sku $sku) {
 
-        $result = (new Cart(true))->addProduct($product);
+        $result = (new Cart(true))->addSku($sku);
         if ($result) {
-            session()->flash('success', __('cart.added').$product->title);
+            session()->flash('success', __('cart.added').$sku->product->__('title'));
         } else {
-            session()->flash('warning', $product->title . __('cart.not_available_more'));
+            session()->flash('warning', $sku->product->__('title') . __('cart.not_available_more'));
         }
 
         return redirect()->route('cartIndex');
     }
 
-    public function cartRemove(Product $product)
+    public function cartRemove(Sku $sku)
     {
-        (new Cart())->removeProduct($product);
-        session()->flash('warning', __('cart.removed').$product->title);
+        (new Cart())->removeSku($sku);
+        session()->flash('warning', __('cart.removed').$sku->product->__('title'));
 
         return redirect()->route('cartIndex');
     }

@@ -7,6 +7,7 @@ use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Requests\ProductsFilterRequest;
+use App\Models\Sku;
 
 class HomeController extends Controller
 {
@@ -27,25 +28,27 @@ class HomeController extends Controller
      */
     public function index(ProductsFilterRequest $request)
     {
-        $productsQuery = Product::with('category');
+        $skusQuery = Sku::with(['product', 'product.category']);
 
         if ($request->filled('price_from')) {
-            $productsQuery->where('price', '>=', $request->price_from);
+             $skusQuery->where('price', '>=', $request->price_from);
         }
 
         if ($request->filled('price_to')) {
-            $productsQuery->where('price', '<=', $request->price_to);
+            $skusQuery->where('price', '<=', $request->price_to);
         }
 
         foreach (['hit', 'new', 'recommend'] as $field) {
             if ($request->has($field)) {
-                $productsQuery->$field();
+                $skusQuery->whereHas('product', function ($query) use ($field) {
+                    $query->$field();
+                });
             }
         }
 
-        $products = $productsQuery->orderBy('price', 'desc')->paginate(4)->withQueryString();
+        $skus = $skusQuery->orderBy('price', 'desc')->paginate(4)->withQueryString();
 
-        return view('home.index', compact('products'));
+        return view('home.index', compact('skus'));
     }
 
     public function user()

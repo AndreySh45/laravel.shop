@@ -1,20 +1,20 @@
 <p>@lang('mail.order_created.dear') {{ $name }}</p>
 
-<p>@lang('mail.order_created.your_order') {{ $fullSum }} {{ $order->currency->symbol }}. @lang('mail.order_created.created')</p>
+<p>@lang('mail.order_created.your_order') {{ $fullSum }} {{ $currencySymbol }}. @lang('mail.order_created.created')</p>
 
 <table>
     <tbody>
-    @foreach($order->products as $product)
+    @foreach($order->skus as $sku)
         <tr>
             <td>
-                <a href="{{ route('showProduct', [$product->category['title'], $product->id]) }}">
-                    <img height="56px" src="{{ $product->getImage() }}">
-                    {{ $product->__('title') }}
+                <a href="{{ route('sku', [$sku->product->category->slug, $sku->product->id, $sku]) }}">
+                    <img height="56px" src="{{ $sku->product->getImage() }}">
+                    {{ $sku->product->__('title') }}
                 </a>
             </td>
-            <td><span class="badge">{{ $product->countInOrder }}</span></td>
-            <td>{{ $product->price }} {{ $currencySymbol }}.</td>
-            <td>{{ $product->getPriceForCount() }} {{ $currencySymbol }}.</td>
+            <td><span class="badge">{{ $sku->countInOrder }}</span></td>
+            <td>{{ $sku->price }} {{ $currencySymbol }}.</td>
+            <td>{{ $sku->getPriceForCount() }} {{ $currencySymbol }}.</td>
         </tr>
     @endforeach
     </tbody>

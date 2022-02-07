@@ -20,23 +20,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($products as $product)
+                        @foreach ($skus as $sku)
                             <tr>
                                 <td>
-                                    <a href="{{ route('products.edit', $product['id']) }}">
+                                    <a href="{{ route('products.edit', $sku->product->id) }}">
                                         <img height="56px"
-                                             src="{{$product->getImage()}}">
-                                        {{ $product->title }}
+                                             src="{{$sku->product->getImage()}}">
+                                        {{ $sku->product->title }}
                                     </a>
                                 </td>
-                                <td><span class="badge">{{ $product->pivot->count }} </span></td>
-                                <td>{{ $product->pivot->price }} {{ $order->currency->symbol }}.</td>
-                                <td>{{ $product->pivot->price * $product->pivot->count }} {{ $order->currency->symbol }}.</td>
+                                <td><span class="badge">{{ $sku->pivot->count }} </span></td>
+                                <td>{{ $sku->pivot->price }} {{ $currencySymbol }}.</td>
+                                <td>{{ $sku->pivot->price * $sku->pivot->count }} {{ $currencySymbol }}.</td>
                             </tr>
                         @endforeach
                         <tr>
                             <td colspan="3">Общая стоимость:</td>
-                            <td>{{ $order->sum }} {{ $order->currency->symbol }}.</td>
+                            <td>{{ $order->sum }} {{ $currencySymbol }}.</td>
                         </tr>
                         </tbody>
                     </table>

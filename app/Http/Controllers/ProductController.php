@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sku;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subscription;
@@ -10,10 +11,17 @@ use App\Http\Requests\SubscriptionRequest;
 
 class ProductController extends Controller
 {
-    public function show($cat, $product_id){
-        $item = Product::where('id', $product_id)->firstOrFail();
+    public function sku($cat, $product_id, Sku $sku)
+    {
+        if ($sku->product->id != $product_id) {
+            abort(404, 'Product not found');
+        }
 
-        return view('product.show', compact('item'));
+        if ($sku->product->category->slug != $cat) {
+            abort(404, 'Category not found');
+        }
+
+        return view('product.show', compact('sku'));
     }
 
     public function showCategory(Request $request, $cat_alias){
@@ -43,11 +51,11 @@ class ProductController extends Controller
         return view('categories.index', compact('cat', 'products'));
     }
 
-    public function subscribe(SubscriptionRequest $request, Product $product)
+    public function subscribe(SubscriptionRequest $request, Sku $sku)
     {
         Subscription::create([
             'email' => $request->email,
-            'product_id' => $product->id,
+            'sku_id' => $sku->id,
         ]);
 
         return redirect()->back()->with('success', __('product.we_will_update'));

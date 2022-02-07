@@ -51,37 +51,37 @@
 
         <div class="row cart_items_row">
             <div class="col">
-                @foreach($order->products as $product)
+                @foreach($order->skus as $sku)
                 <!-- Cart Item -->
                 <div class="cart_item d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
                     <!-- Name -->
                     <div class="cart_item_product d-flex flex-row align-items-center justify-content-start">
                         <div class="cart_item_image">
-                            <div><img src="{{ $product->getImage()}}" alt=""></div>
+                            <div><img src="{{ $sku->product->getImage()}}" alt=""></div>
                         </div>
                         <div class="cart_item_name_container">
-                            <div class="cart_item_name"><a href="{{route('showProduct', [$product->category['title'], $product])}}">{{$product->title}}</a></div>
+                            <div class="cart_item_name"><a href="{{route('sku', [$sku->product->category->slug, $sku->product->id, $sku->id])}}">{{$sku->product->__('title')}}</a></div>
                             @auth
                             @if (Auth::user()->hasRole('admin'))
-                            <div class="cart_item_edit"><a href="{{ route('products.edit', $product->id) }}">@lang('cart.edit')</a></div>
+                            <div class="cart_item_edit"><a href="{{ route('skus.edit', [$sku->product, $sku]) }}">@lang('cart.edit')</a></div>
                             @endif
                             @endauth
                         </div>
                     </div>
                     <!-- Price -->
-                    <div class="cart_item_price">{{$product->price}} {{ $currencySymbol }}.</div>
+                    <div class="cart_item_price">{{$sku->price}} {{ $currencySymbol }}.</div>
                     <!-- Quantity -->
                     <div class="cart_item_quantity">
                         <div class="product_quantity_container">
                             <div class="product_quantity clearfix">
-                                <span class="badge">{{$product->countInOrder}}</span>
+                                <span class="badge">{{$sku->countInOrder}}</span>
                                 {{-- <input id="quantity_input" type="text" value="{{$product->count->count}}"> --}}
                                 <div class="quantity_buttons">
-                                    <form action="{{ route('cartRemove', $product) }}" method="POST">
+                                    <form action="{{ route('cartRemove', $sku) }}" method="POST">
                                         <button type="submit" id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fa fa-minus" aria-hidden="true"></i></button>
                                         @csrf
                                     </form>
-                                    <form action="{{ route('cartAdd', $product) }}" method="POST">
+                                    <form action="{{ route('cartAdd', $sku) }}" method="POST">
                                         <button type="submit" id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                         @csrf
                                     </form>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <!-- Total -->
-                    <div class="cart_item_total">{{ $product->price * $product->countInOrder }} {{ $currencySymbol }}.</div>
+                    <div class="cart_item_total">{{ $sku->price * $sku->countInOrder }} {{ $currencySymbol }}.</div>
                 </div>
                 @endforeach
             </div>

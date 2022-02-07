@@ -53,18 +53,6 @@ class Product extends Model
         return asset("uploads/{$img}");
     }
 
-    public function getPriceForCount() {
-        if (!is_null($this->countInOrder)) {
-            return $this->countInOrder * $this->price;
-        }
-        return $this->price;
-    }
-
-    public function isAvailable()
-    {
-        return !$this->trashed() && $this->count > 0;
-    }
-
     public function scopeHit($query)
     {
         return $query->where('hit', 1);
