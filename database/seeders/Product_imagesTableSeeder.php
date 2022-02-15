@@ -22,7 +22,7 @@ class Product_imagesTableSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'img' => 'products/product_6.jpg',
+                'img' => 'products/product_10.jpg',
                 'product_id' => 2,
             ],
             [
@@ -32,7 +32,7 @@ class Product_imagesTableSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'img' => 'products/product_10.jpg',
+                'img' => 'products/product_6.jpg',
                 'product_id' => 4,
             ],
         ]);

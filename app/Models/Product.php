@@ -18,13 +18,10 @@ class Product extends Model
         'description',
         'title_en',
         'description_en',
-        'price',
-        'in_stock',
         'category_id',
         'hit',
         'new',
         'recommend',
-        'count'
     ];
     public function images(){
         return $this->hasMany('App\Models\ProductImage');
@@ -68,12 +65,6 @@ class Product extends Model
         return $query->where('recommend', 1);
     }
 
-
-    public function setInStockAttribute($value)
-    {
-        $this->attributes['in_stock'] = $value === 'on' ? 1 : 0;
-    }
-
     public function setNewAttribute($value)
     {
         $this->attributes['new'] = $value === 'on' ? 1 : 0;
@@ -87,11 +78,6 @@ class Product extends Model
     public function setRecommendAttribute($value)
     {
         $this->attributes['recommend'] = $value === 'on' ? 1 : 0;
-    }
-
-    public function isIn_stock()
-    {
-        return $this->in_stock === 1;
     }
 
     public function isHit()

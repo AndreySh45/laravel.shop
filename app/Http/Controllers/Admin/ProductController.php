@@ -90,7 +90,7 @@ class ProductController extends Controller
         $data = $request->all();
         unset($data['img']);
 
-        foreach (['in_stock', 'new', 'hit', 'recommend'] as $fieldName) {
+        foreach (['new', 'hit', 'recommend'] as $fieldName) {
             if (!isset($data[$fieldName])) {
                 $data[$fieldName] = 0;
             }

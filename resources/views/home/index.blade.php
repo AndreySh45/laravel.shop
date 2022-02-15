@@ -189,7 +189,7 @@
                                     @endisset
                                     @if($sku->product->new_price != null)
                                         <div style="text-decoration: line-through">{{ $currencySymbol }}{{$sku->price}}</div>
-                                        <div class="product_price">{{ $currencySymbol }}{{$sku->product->new_price}}</div>  {{-- $sku->new_price --}}
+                                        <div class="product_price">{{ $currencySymbol }}{{$sku->new_price}}</div>  {{-- $sku->new_price --}}
                                     @else
                                         <div class="product_price">{{ $currencySymbol }}{{$sku->price}}</div>
                                     @endif

@@ -61,9 +61,9 @@
             <div class="col-lg-6">
                 <div class="details_content">
                     <div class="details_name" data-id="{{$sku->product->id}}">{{$sku->product->__('title')}}</div>
-                    @if($sku->product->new_price != null)
+                    @if($sku->new_price != null)
                         <div class="details_discount">{{ $currencySymbol }}{{$sku->price}}</div>
-                        <div class="details_price">{{ $currencySymbol }}{{$sku->product->new_price}}</div>
+                        <div class="details_price">{{ $currencySymbol }}{{$sku->new_price}}</div>
                     @else
                         <div class="product_price">{{ $currencySymbol }}{{$sku->price}}</div>
                     @endif

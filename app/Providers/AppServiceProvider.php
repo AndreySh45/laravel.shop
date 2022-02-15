@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Sku;
 use Darryldecode\Cart\Cart;
 use App\Observers\ProductObserver;
 use Illuminate\Pagination\Paginator;
@@ -35,6 +36,6 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo Route::currentRouteNamed($route) ? 'class=\"hassubs active\"' : 'class=\"hassubs\"' ?>";
         });
 
-        Product::observe(ProductObserver::class);
+        Sku::observe(ProductObserver::class);
     }
 }

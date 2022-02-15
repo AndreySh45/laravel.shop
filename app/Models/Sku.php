@@ -11,7 +11,7 @@ class Sku extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['product_id', 'count', 'price'];
+    protected $fillable = ['product_id', 'count', 'price', 'new_price'];
 
     public function product()
     {

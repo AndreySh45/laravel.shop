@@ -32,6 +32,11 @@
                                     value="{{ old('price', isset($skus) ? $skus->price : null) }}"    placeholder="Введите цену" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Новая цена товара</label>
+                                    <input type="text" name="new_price" class="form-control @error('new_price') is-invalid @enderror" id="exampleInputEmail1"
+                                    value="{{ old('new_price', isset($skus) ? $skus->new_price : null) }}"    placeholder="Введите новую цену" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Количество</label>
                                     <input type="text" name="count" class="form-control @error('count') is-invalid @enderror" id="exampleInputEmail1"
                                     value="{{ old('count', isset($skus) ? $skus->count : null) }}"    placeholder="Введите количество товара" required>

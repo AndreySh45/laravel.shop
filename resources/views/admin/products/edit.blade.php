@@ -52,16 +52,6 @@
                                 </div>
                                 <div class="form-inline">
                                     <div class="form-check mb-2 mr-sm-2">
-                                            <div class="form-check">
-                                                <input name="in_stock" class="form-check-input" type="checkbox" id="in_stock"
-                                                @if(isset($product) && $product->in_stock === 1)
-                                                        checked="checked"
-                                                @endif
-                                                >
-                                                <label class="form-check-label">Наличие товара</label>
-                                            </div>
-                                            <br>
-                                        </div>
                                         @foreach ([
                                             'hit' => 'Хит',
                                             'new' => 'Новинка',
@@ -78,6 +68,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Описание товара</label>

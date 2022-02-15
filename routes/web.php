@@ -23,9 +23,9 @@ Auth::routes();
 Route::get('/spa/{any}', [SpaController::class, 'index'])->where('any', '.*');
 Route::get('locale/{locale}', [HomeController::class, 'changeLocale'])->name('locale');
 Route::get('currency/{currencyCode}', [HomeController::class, 'changeCurrency'])->name('currency');
-Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
 
 Route::middleware(['set_locale'])->group(function () {
+    Route::get('/reset', [ResetController::class, 'reset'])->name('reset');
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::post('subscription/{sku}', [ProductController::class, 'subscribe'])->name('subscription');
     Route::get('/catedory/{cat}/{product_id}/{sku}', [ProductController::class, 'sku'] )->name('sku');

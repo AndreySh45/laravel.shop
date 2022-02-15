@@ -11,9 +11,9 @@ class Subscription extends Model
     use HasFactory;
     protected $fillable = ['email', 'sku_id'];
 
-    public function scopeActiveBySkuId($query, $skutId)
+    public function scopeActiveBySkuId($query, $skuId)
     {
-        return $query->where('status', 0)->where('sku_id', $skutId);
+        return $query->where('status', 0)->where('sku_id', $skuId);
     }
 
     public function sku()

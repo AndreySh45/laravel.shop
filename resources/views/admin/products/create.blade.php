@@ -51,13 +51,6 @@
                                         </div>
                                 </div>
                                 <div class="form-inline">
-                                    <div class="form-check mb-2 mr-sm-2">
-                                            <div class="form-check">
-                                                <input name="in_stock" class="form-check-input" type="checkbox" id="in_stock">
-                                                <label class="form-check-label">Наличие товара</label>
-                                            </div>
-                                            <br>
-                                    </div>
                                         @foreach ([
                                             'hit' => 'Хит',
                                             'new' => 'Новинка',
