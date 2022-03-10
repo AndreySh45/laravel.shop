@@ -133,18 +133,28 @@
                         </label>
                     </div>
                 </div>
-
-                <!-- Coupon Code -->
-                <div class="coupon">
-                    <div class="section_title">Coupon code</div>
-                    <div class="section_subtitle">Enter your coupon code</div>
-                    <div class="coupon_form_container">
-                        <form action="#" id="coupon_form" class="coupon_form">
-                            <input type="text" class="coupon_input" required="required">
-                            <button class="button coupon_button"><span>Apply</span></button>
-                        </form>
+                @if(!$order->hasCoupon())
+                    <!-- Coupon Code -->
+                    <div class="coupon">
+                        <div class="section_title">Coupon code</div>
+                        <div class="section_subtitle">Добавить купон:</div>
+                        <div class="coupon_form_container">
+                            <form method="POST" action="{{ route('set-coupon') }}" id="coupon_form" class="coupon_form">
+                                @csrf
+                                <input type="text" name="coupon" class="coupon_input" required="required">
+                                <button class="button coupon_button"><span>Применить</span></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                    @error('coupon')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                @else
+                    <div class="coupon">
+                        <div class="section_title">Вы используете купон</div>
+                        <div class="section_subtitle">{{ $order->coupon->code }}</div>
+                    </div>
+                @endif
             </div>
 
             <div class="col-lg-6 offset-lg-2">
@@ -155,7 +165,13 @@
                         <ul>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">@lang('cart.subtotal')</div>
-                                <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} {{ $currencySymbol }}.</div>
+                                @if($order->hasCoupon())
+                                    <div class="cart_total_value ml-auto"> <strike>{{ $order->getFullSum(false) }}</strike> {{ $order->getFullSum() }} {{ $currencySymbol }} </div>
+
+                                @else
+                                    <div class="cart_total_value ml-auto">{{ $order->getFullSum() }} {{ $currencySymbol }}.</div>
+                                @endif
+
                             </li>
                             <li class="d-flex flex-row align-items-center justify-content-start">
                                 <div class="cart_total_title">@lang('cart.shipping')</div>

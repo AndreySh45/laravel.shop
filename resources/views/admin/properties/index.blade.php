@@ -80,6 +80,9 @@
 
 
         </div><!-- /.container-fluid -->
+        <div class="card-footer clearfix">
+            <a type="button" class="btn btn-primary float-right" href="{{ route('coupons.create') }}"><i class="fas fa-plus"></i> Добавить купон</a>
+        </div>
       </section>
       <!-- /.content -->
 @endsection

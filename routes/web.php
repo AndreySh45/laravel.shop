@@ -40,6 +40,7 @@ Route::middleware(['set_locale'])->group(function () {
             Route::get('/place', [CartController::class, 'cartPlace'])->name('cartPlace');
             Route::post('/remove/{sku}', [CartController::class, 'cartRemove'])->name('cartRemove');
             Route::post('/place', [CartController::class, 'cartConfirm'])->name('cartConfirm');
+            Route::post('coupon', [CartController::class, 'setCoupon'])->name('set-coupon');
         });
     });
     Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin_panel', 'middleware' => 'role:admin'], function () {
@@ -49,6 +50,7 @@ Route::middleware(['set_locale'])->group(function () {
         Route::resource('products/{product}/skus', 'SkuController');
         Route::resource('orders', 'OrderController');
         Route::resource('properties', 'PropertyController');
+        Route::resource('coupons', 'CouponController');
         Route::resource('properties/{property}/property-options', 'PropertyOptionController');
     });
     Route::get('/home', [HomeController::class, 'user'])->name('home');

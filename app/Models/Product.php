@@ -95,10 +95,4 @@ class Product extends Model
         return $this->recommend === 1;
     }
 
-    //Для отображения измененной цены в карточке товара
-    public function getPriceAttribute($value)
-    {
-        return round(CurrencyConversion::convert($value), 2);
-    }
-
 }

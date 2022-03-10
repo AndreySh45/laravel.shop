@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "barryvdh/laravel-elfinder": "^0.4.7",
         "cviebrock/eloquent-sluggable": "^8.0",
         "darryldecode/cart": "^4.2",
@@ -32,6 +32,7 @@
         "phpunit/phpunit": "^9.3.3"
     },
     "config": {
+        "disable-tls": true,
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true

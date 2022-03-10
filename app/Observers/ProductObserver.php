@@ -11,7 +11,7 @@ class ProductObserver
     /**
      * Handle the Product "updated" event.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Sku  $sku
      * @return void
      */
     public function updating(Sku $sku)

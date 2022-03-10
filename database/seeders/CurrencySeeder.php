@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -22,6 +23,7 @@ class CurrencySeeder extends Seeder
                 'symbol' => '₽',
                 'is_main' => 1,
                 'rate' => 1,
+                'created_at' => Carbon::now(),
             ],
             [
                 'code' => 'USD',

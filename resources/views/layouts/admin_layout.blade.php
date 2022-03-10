@@ -162,6 +162,28 @@
 
                 </ul>
             </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-columns"></i>
+                    <p>
+                        Купоны
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('coupons.index')}}" class="nav-link">
+                            <p>Все купоны</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('coupons.create')}}" class="nav-link">
+                            <p>Добавить купон</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
     </nav>
       <!-- /.sidebar-menu -->
@@ -218,8 +240,8 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
   $(function () {
-  bsCustomFileInput.init();
-});
+    bsCustomFileInput.init();
+  });
 </script>
 <!-- Bootstrap 4 -->
 <script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

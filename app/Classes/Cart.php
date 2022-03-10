@@ -2,9 +2,10 @@
 
 namespace App\Classes;
 
-use App\Models\Order;
-use App\Mail\OrderCreated;
 use App\Models\Sku;
+use App\Models\Order;
+use App\Models\Coupon;
+use App\Mail\OrderCreated;
 use App\Services\CurrencyConversion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -84,7 +85,7 @@ class Cart
         if ($this->order->skus->contains($sku)) {
             $pivotRow = $this->order->skus->where('id', $sku->id)->first(); //Находим сведения о товаре
             if ($pivotRow->countInOrder < 2) {
-                $this->order->skus->pop($sku); //Если товар в одном экземпляре удаляем его из корзины
+                $this->order->skus->pop(); //Если товар в одном экземпляре удаляем его из корзины
             } else {
                 $pivotRow->countInOrder--; //Уменьшаем на один
             }
@@ -109,5 +110,15 @@ class Cart
         }
 
         return true;
+    }
+
+    public function setCoupon(Coupon $coupon)
+    {
+        $this->order->coupon()->associate($coupon);
+    }
+
+    public function clearCoupon() //Стираем купон
+    {
+        $this->order->coupon()->dissociate();
     }
 }
