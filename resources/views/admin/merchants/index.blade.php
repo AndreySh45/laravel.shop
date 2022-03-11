@@ -1,24 +1,24 @@
 @extends('layouts.admin_layout')
-@section('title', 'Все свойства')
+@section('title', 'Все поставщики')
 @section('content')
-       <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Все свойства товара</h1>
+                    <h1 class="m-0">Все поставщики</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
+    </div>
+    <!-- /.content-header -->
 
-      <!-- Main content -->
-      <section class="content">
+    <!-- Main content -->
+    <section class="content">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body p-0">
-                @if (count($properties))
+                @if (count($merchants))
                     <table class="table table-striped projects">
                         <thead>
                             <tr>
@@ -33,27 +33,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($properties as $property)
+                            @foreach ($merchants as $merchant)
                                 <tr>
                                     <td>
-                                        {{ $property['id'] }}
+                                        {{ $merchant['id'] }}
                                     </td>
                                     <td>
-                                        {{ $property['name'] }}
+                                        {{ $merchant['name'] }}
                                     </td>
 
                                     <td class="project-actions text-right">
-                                        <a class="btn btn-info btn-sm" href="{{ route('properties.edit', $property['id']) }}">
+                                        <a class="btn btn-success btn-sm" href="{{ route('merchants.show', $merchant) }}">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Открыть
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="{{ route('merchants.edit', $merchant) }}">
                                             <i class="fas fa-pencil-alt">
                                             </i>
                                             Редактировать
                                         </a>
-                                        <a class="btn btn-primary btn-sm" href="{{ route('property-options.index', $property) }}">
+                                        <a class="btn btn-primary btn-sm" href="{{ route('merchants.update_token', $merchant) }}">
                                             <i class="fas fa-folder">
                                             </i>
-                                            Значения свойства
+                                            Обновить токен
                                         </a>
-                                        <form action="{{ route('properties.destroy', $property['id']) }}" method="POST"
+                                        <form action="{{ route('merchants.destroy', $merchant) }}" method="POST"
                                         style="display: inline-block">
                                             @csrf
                                             @method('DELETE')
@@ -72,7 +77,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p>Свойств товара пока нет...</p>
+                    <p>Поставщиков пока нет...</p>
                 @endif
                 </div>
                 <!-- /.card-body -->
@@ -81,7 +86,7 @@
 
         </div><!-- /.container-fluid -->
         <div class="card-footer clearfix">
-            <a type="button" class="btn btn-primary float-right" href="{{ route('properties.create') }}"><i class="fas fa-plus"></i> Добавить свойство</a>
+            <a type="button" class="btn btn-primary float-right" href="{{ route('merchants.create') }}"><i class="fas fa-plus"></i> Добавить поставщика</a>
         </div>
       </section>
       <!-- /.content -->

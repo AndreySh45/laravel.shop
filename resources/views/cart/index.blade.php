@@ -137,12 +137,12 @@
                     <!-- Coupon Code -->
                     <div class="coupon">
                         <div class="section_title">Coupon code</div>
-                        <div class="section_subtitle">Добавить купон:</div>
+                        <div class="section_subtitle">@lang('cart.coupon.add_coupon'):</div>
                         <div class="coupon_form_container">
                             <form method="POST" action="{{ route('set-coupon') }}" id="coupon_form" class="coupon_form">
                                 @csrf
                                 <input type="text" name="coupon" class="coupon_input" required="required">
-                                <button class="button coupon_button"><span>Применить</span></button>
+                                <button class="button coupon_button"><span>@lang('cart.coupon.apply')</span></button>
                             </form>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                     @enderror
                 @else
                     <div class="coupon">
-                        <div class="section_title">Вы используете купон</div>
+                        <div class="section_title">@lang('cart.coupon.your_coupon')</div>
                         <div class="section_subtitle">{{ $order->coupon->code }}</div>
                     </div>
                 @endif

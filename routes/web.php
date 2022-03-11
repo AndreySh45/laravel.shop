@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\MerchantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,8 @@ Route::middleware(['set_locale'])->group(function () {
         Route::resource('orders', 'OrderController');
         Route::resource('properties', 'PropertyController');
         Route::resource('coupons', 'CouponController');
+        Route::resource('merchants', 'MerchantController');
+        Route::get('merchant/{merchant}/update_token', [MerchantController::class, 'updateToken'])->name('merchants.update_token');
         Route::resource('properties/{property}/property-options', 'PropertyOptionController');
     });
     Route::get('/home', [HomeController::class, 'user'])->name('home');

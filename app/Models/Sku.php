@@ -13,10 +13,16 @@ class Sku extends Model
     use SoftDeletes;
 
     protected $fillable = ['product_id', 'count', 'price', 'new_price'];
+    protected $visible = ['id', 'count', 'price', 'product_name'];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function scopeAvailable($query) //Выбрать предложения которые есть в наличии
+    {
+        return $query->where('count', '>', 0);
     }
 
     public function propertyOptions()
@@ -37,8 +43,13 @@ class Sku extends Model
     }
 
      //Для отображения измененной цены в карточке товара
-     public function getPriceAttribute($value)
+    public function getPriceAttribute($value)
      {
          return round(CurrencyConversion::convert($value), 2);
      }
+
+    public function getProductNameAttribute() //Получение 'product_name'
+    {
+        return $this->product->title;
+    }
 }

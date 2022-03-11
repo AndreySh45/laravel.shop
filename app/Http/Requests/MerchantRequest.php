@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddCouponRequest extends FormRequest
+class MerchantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,8 @@ class AddCouponRequest extends FormRequest
     public function rules()
     {
         return [
-            'coupon' => 'required|min:6|max:8|exists:coupons,code',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'coupon.*' => __('cart.coupon.not_exists'),
+            'name' => 'required',
+            'email' => 'required',
         ];
     }
 }

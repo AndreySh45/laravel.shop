@@ -22,7 +22,7 @@ class CartController extends Controller
         $cart = new Cart();
         if ($cart->getOrder()->hasCoupon() && !$cart->getOrder()->coupon->availableForUse()) {
             $cart->clearCoupon();
-            session()->flash('warning', 'Купон не доступен для использования');
+            session()->flash('warning', __('cart.coupon.not_available'));
             return redirect()->route('cartIndex');
         }
         $email = Auth::check() ? Auth::user()->email : $request->email;
@@ -73,9 +73,9 @@ class CartController extends Controller
 
         if ($coupon->availableForUse()) { //купон можно использовать
             (new Cart())->setCoupon($coupon);
-            session()->flash('success', 'Купон был добавлен к заказу');
+            session()->flash('success', __('cart.coupon.coupon_added'));
         } else {
-            session()->flash('warning', 'Купон не может быть использован');
+            session()->flash('warning', __('cart.coupon.not_available'));
         }
 
         return redirect()->route('cartIndex');
